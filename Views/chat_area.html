@@ -21,17 +21,23 @@
             </div>
         </div>
     </div>
-    <div class="message_area">
-        <div class="message_area">
-            <div class="message_area">
-                <div class="message you">
-                    <p>This is a sample message from you.</p>
-                </div>
-                <div class="message friend">
-                    <p>This is a sample message from another person.</p>
-                </div>
+<div class="message_area">
+            <div class="message you">
+                <p>This is a message from you.</p>
+            </div>
+            <div class="message friend">
+                <p>This is a message from another person.</p>
+            </div>
+            <div class="message you">
+                <p>This is a message from you.</p>
             </div>
         </div>
+    <div class="type">
+        <button type="button" onClick="openFileUploader()" ><img src="/Images/icons8-paper-clip-16 (1).png"></button>
+        <input type="file" name="file-upload" id="file-upload" style="display: none;">
+        <input type="text" name="input-message" placeholder="Type a message here...">
+        <button type="button" class="send-button"><img src="/Images/icons8-send-16.png"></button>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
