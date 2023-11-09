@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My Messaging App</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+	<style>
+		body {
+			background-color: white;
+			color: black;
+			font-family: Arial, sans-serif;
+		}
+
+		.search-bar {
+			display: flex;
+			align-items: center;
+			background-color: white;
+			padding: 20px;
+		}
+
+		.search-bar input[type="text"] {
+			background-color: rgb(240, 240, 240);
+			border: none;
+			color: black;
+			flex-grow: 1;
+			padding: 10px;
+			border-radius: 25px;
+		}
+
+		.message {
+			display: flex;
+			flex-direction: column;
+			padding: 10px;
+		}
+
+		.message .sender {
+			font-weight: bold;
+		}
+
+		.message .status {
+			font-size: 12px;
+			color: #666;
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		.message .content {
+			margin-top: 5px;
+		}
+
+		.message .timestamp {
+			font-size: 12px;
+			color: #666;
+			margin-top: 5px;
+			margin-right: 20px;
+		}
+
+		.transparent-button {
+			width: 95.4vw;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			overflow: hidden;
+			text-align: left;
+			transition: background-color 0.3s ease;
+			border-radius: 25px;	
+		}
+
+		.transparent-button:hover {			
+			background-color: rgb(240, 240, 240);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="search-bar">
+		<input type="text" placeholder="Enter for search...">
+		<p style="margin-left: 20px"><i class="fas fa-search"></i></p>
+	</div>
+	<div style="overflow: hidden; padding: 10px; font-size: small">
+		<p style="float: left; color: gray;">Sort By:</p>
+		<p style="float: left; margin-left: 5px;">Latest First</p>
+		<p style="float: left; margin-left: 2px; color: black;"><i class="fa-solid fa-chevron-down"></i>
+		</p>
+		<p style="float: right; margin-right: 5px; color: gray;"><i class="fas fa-circle-plus"></i>
+		</p>
+		<p style="float: right; margin-right: 7px; color: gray;">Add New</p>
+	</div>
+
+	<button class="transparent-button">
+		<div class="message">
+			<div class="sender">Onana</div>
+			<div class="status">Online</div>
+			<div class="content">I am the SpiderMan!!!</div>
+			<div class="timestamp">10:30 AM</div>
+		</div>
+	</button>
+	<button class="transparent-button">
+		<div class="message">
+			<div class="sender">Sang Traan</div>
+			<div class="status">Offline</div>
+			<div class="content">Yes sirrrrr!!!!!!</div>
+			<div class="timestamp">Yesterday</div>
+		</div>
+	</button>
+	<button class="transparent-button">
+		<div class="message">
+			<div class="sender">Archetto</div>
+			<div class="status">Online</div>
+			<div class="content">Bread or Beer?</div>
+			<div class="timestamp">2 days ago</div>
+		</div>
+	</button>
+</body>
+
+</html>

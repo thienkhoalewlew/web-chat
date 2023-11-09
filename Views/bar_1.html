@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        .vertical-bar {
+            width: 40px;
+            height: 96vh;
+            background-color: #2b2b2b;
+            border-left: 5px solid green;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+        }
+
+        .icon-user,
+        .icon,
+        .icon-gear {
+            color: gray;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .icon-user {
+            margin: 20px 0 50px 0;
+        }
+
+        .icon {
+            margin: 20px;
+        }
+
+        .icon-gear {
+            margin: 50px 0 20px 0;
+        }
+
+        .icon-user:hover,
+        .icon:hover,
+        .icon-gear:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vertical-bar">
+        <div class="icon-user">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="icon">
+            <i class="fas fa-home"></i>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-paper-plane"></i>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-inbox"></i>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="icon">
+            <i class="fas fa-bell"></i>
+        </div>
+        <div class="icon">
+            <i class="fa-solid fa-ellipsis"></i>
+        </div>
+        <div class="icon-gear">
+            <i class="fa-solid fa-gear fa-spin"></i>
+        </div>
+    </div>
+</body>
+
+</html>
