@@ -239,7 +239,7 @@
 }
 
 .user-name {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: bold;
     margin: 0;
     font-style: bold;
@@ -252,9 +252,11 @@
     color: gray;
 }
 
-.info-icon {
-    width: 20px;
-    height: 20px;
+.btn_profile {
+    border: none;
+    background: none; 
+    padding: 0; 
+    cursor: pointer;
 }
 
 .status-dot {
@@ -265,12 +267,13 @@
     display: inline-block;
     padding:  1px;
     margin-right: 2px;
+    margin-bottom: 1.8px;
 }
 
 /* Message Area */
 .message_area {
     height: 80vh;
-    overflow: hidden;
+    overflow-y: auto;
     background-color: #f0f0f0;
 }
 
@@ -309,7 +312,7 @@
 }
 
 .type input[type="text"] {
-    border-radius: 30px;
+    border-radius: 9px;
     flex: 1; 
 }
 
@@ -344,3 +347,10 @@
     padding: 8px 15px;
     border-radius: 5px;
 }
+
+
+
+
+
+
+
