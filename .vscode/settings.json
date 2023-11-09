@@ -2,5 +2,12 @@
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
     "libs/mssql-jdbc-12.4.2.jre11.jar"
-  ]
+  ],
+  
+"java.project.referencedLibraries": [
+  "libs/servlet-api.jar"
+],
+"files.associations": {
+  "*.jsp": "html"
+}
 }
