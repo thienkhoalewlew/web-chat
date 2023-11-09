@@ -1,244 +1,577 @@
 /* Bar1 */
 .vertical-bar {
-    width: 40px;
-    height: 96vh;
-    background-color: #2b2b2b;
-    border-left: 5px solid green;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
+  width: 40px;
+  height: 96vh;
+  background-color: #2b2b2b;
+  border-left: 5px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 .icon-user,
 .icon,
 .icon-gear {
-    color: gray;
-    font-size: 24px;
-    transition: color 0.3s;
+  color: gray;
+  font-size: 24px;
+  transition: color 0.3s;
 }
 
 .icon-user {
-    margin: 20px 0 50px 0;
+  margin: 20px 0 50px 0;
 }
 
 .icon {
-    margin: 20px;
+  margin: 20px;
 }
 
 .icon-gear {
-    margin: 50px 0 20px 0;
+  margin: 50px 0 20px 0;
 }
 
 .icon-user:hover,
 .icon:hover,
 .icon-gear:hover {
-    color: white;
+  color: white;
 }
 
 /* Bar2 */
 body {
-    background-color: white;
-    color: black;
-    font-family: Arial, sans-serif;
+  background-color: white;
+  color: black;
+  font-family: Arial, sans-serif;
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    padding: 20px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
 }
 
 .search-bar input[type="text"] {
-    background-color: rgb(240, 240, 240);
-    border: none;
-    color: black;
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 25px;
+  background-color: rgb(240, 240, 240);
+  border: none;
+  color: black;
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 25px;
 }
 
 .message {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 .message .sender {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .message .status {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-    margin-bottom: 5px;
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .message .content {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .message .timestamp {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-    margin-right: 20px;
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+  margin-right: 20px;
 }
 
 .transparent-button {
-    width: 95.4vw;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    text-align: left;
-    transition: background-color 0.3s ease;
-    border-radius: 25px;	
+  width: 95.4vw;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  transition: background-color 0.3s ease;
+  border-radius: 25px;
 }
 
-.transparent-button:hover {			
-    background-color: rgb(240, 240, 240);
+.transparent-button:hover {
+  background-color: rgb(240, 240, 240);
 }
 
 /* Friend */
 .user-container {
-    display: flex;
-    align-items: center;
-    padding: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
 }
 
 .user-avatar {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
 }
 
 .user-details {
-    flex: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .user-info {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .user-name {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 0;
-    font-style: bold;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  font-style: bold;
 }
 
 .user-status {
-    font-size: 10px;
-    margin: 0;
-    font-style: italic;
-    color: gray;
+  font-size: 10px;
+  margin: 0;
+  font-style: italic;
+  color: gray;
 }
 
 .btn_profile {
-    border: none;
-    background: none; 
-    padding: 0; 
-    cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .status-dot {
-    width: 4px;
-    height: 4px;
-    background-color: rgb(32, 179, 32);
-    border-radius: 50%;
-    display: inline-block;
-    padding:  1px;
-    margin-right: 2px;
-    margin-bottom: 1.8px;
+  width: 4px;
+  height: 4px;
+  background-color: rgb(32, 179, 32);
+  border-radius: 50%;
+  display: inline-block;
+  padding: 1px;
+  margin-right: 2px;
+  margin-bottom: 1.8px;
 }
 
 /* Message Area */
 .message_area {
-    height: 80vh;
-    overflow-y: auto;
-    background-color: #f0f0f0;
+  height: 80vh;
+  overflow-y: auto;
+  background-color: #f0f0f0;
 }
 
 .message {
-    font-size: 12px; 
-    padding: 10px;
-    margin: 10px;
-    border-radius: 50px;
-    clear: both;
+  font-size: 12px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 50px;
+  clear: both;
 }
 
 .you {
-    background-color: #3498db;
-    color: #fff; 
-    float: right;
+  background-color: #3498db;
+  color: #fff;
+  float: right;
 }
 
 .friend {
-    background-color: #e1e1e1;
-    color: #333; 
-    float: left;
+  background-color: #e1e1e1;
+  color: #333;
+  float: left;
 }
 
 /* Input */
 .type {
-    display: flex;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 10px; 
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 10px;
 }
 
 .type input[type="text"],
 .type input[type="file"],
 .type button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .type input[type="text"] {
-    border-radius: 9px;
-    flex: 1; 
+  border-radius: 9px;
+  flex: 1;
 }
 
 .type button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 5px;
-    border-radius: 10px;
-    cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .type input[type="file"] {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
 }
 
 .type label {
-    cursor: pointer;
-    background-color: #3498db;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
 }
 
 .type label {
-    display: inline-block;
-    cursor: pointer;
-    background-color: #3498db;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+/*CSS của Login*/
+
+.logo {
+  font-size: 2.5em;
+  color: #fff;
+}
+
+.navigation a {
+  position: relative;
+  font-size: 1.5em;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 40px;
+}
+
+.navigation a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 3px;
+  background: #fff;
+  border-radius: 5px;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.5s;
+}
+
+.navigation a:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.navigation .btnLogin-popup {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #fff;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: 500;
+  margin-left: 40px;
+  transition: 0.5s;
+}
+
+.navigation .btnLogin-popup:hover {
+  background: #fff;
+  color: #d9af55;
+}
+
+/***********************************/
+
+.form-login-register {
+  position: relative;
+  width: 500px;
+  height: 550px;
+  left: 250px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transform: scale(0);
+  transition: transform 0.5s ease, height 0.2s ease;
+}
+
+.form-login-register.active-popup {
+  transform: scale(1);
+}
+
+.form-login-register.active-show-register {
+  height: 610px;
+}
+
+.form-login-register.active-show-reset {
+  transform: scale(0);
+}
+
+.form-login-register .form-box {
+  width: 100%;
+  padding: 40px;
+}
+
+.form-login-register .form-box.login {
+  transition: transform 0.18s ease;
+  transform: translateX(0);
+}
+
+.form-login-register.active-show-register .form-box.login {
+  transition: none;
+  transform: translateX(-500px);
+}
+
+.form-login-register .form-box.register {
+  position: absolute;
+  transition: none;
+  transform: translateX(500px);
+}
+
+.form-login-register.active-show-register .form-box.register {
+  transition: transform 0.18s ease;
+  transform: translateX(0);
+}
+
+.form-login-register .icon-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: rgb(202, 99, 31);
+  font-size: 2.1em;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.icon-close:hover {
+  background: #fff;
+  color: rgb(202, 99, 31);
+}
+
+.form-box h2 {
+  font-size: 3em;
+  color: #fff;
+  text-align: center;
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid #fff;
+  margin: 40px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: 700;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -5px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 200;
+  padding: 0 45px 0 5px;
+}
+
+.input-box .iconLogin {
+  position: absolute;
+  right: 8px;
+  font-size: 1.8em;
+  color: #fff;
+  line-height: 57px;
+}
+
+.remember-forgot {
+  font-size: 1em;
+  color: #fff;
+  font-weight: 500;
+  margin: -25px 0 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remember-forgot label input {
+  accent-color: rgb(202, 99, 31);
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  text-decoration: underline;
+}
+
+.btn {
+  width: 100%;
+  height: 45px;
+  background: rgb(202, 99, 31);
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.4em;
+  color: #fff;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+.btn:hover {
+  background: #fff;
+  color: rgb(202, 99, 31);
+}
+
+.change-login-register {
+  font-size: 1em;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 40px;
+}
+
+.change-login-register p a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 10px;
+  font-size: 1.2em;
+}
+
+.change-login-register p a:hover {
+  text-decoration: underline;
+}
+
+/*************************************/
+#bodyLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("/Images/backgroud.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  user-select: none;
+}
+
+#headerLogin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+}
+.form-resetpassword {
+  position: relative;
+  width: 500px;
+  height: 460px;
+  right: 250px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 25px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transform: scale(0);
+  transition: transform 0.5s ease, height 0.2s ease;
+}
+
+.form-resetpassword.active-hidden-login {
+  transform: scale(1);
+}
+
+.form-resetpassword .icon-close-reset {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: rgb(202, 99, 31);
+  font-size: 2.1em;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.icon-close-reset:hover {
+  background: #fff;
+  color: rgb(202, 99, 31);
+}
+
+.form-resetpassword .form-box {
+  width: 100%;
+  padding: 40px;
+}
+.form-resetpassword h2 {
+  font-size: 2.2em;
+  color: #fff;
+  text-align: center;
+}
+
+.form-resetpassword p {
+  font-size: 1.2em;
+  color: #fff;
+  text-align: justify;
+  font-weight: 500;
+  margin-top: 40px;
 }
