@@ -1,69 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body >
+
+<body>
     <div class="user-container">
-        <div class="avatar-container">
-            <img class="user-avatar" src="../Images/avatar.jpg" alt="Avatar">
-        </div>
+        <img class="user-avatar" src="../Images/avatar.jpg" alt="Avatar">
         <div class="user-details">
             <div class="user-info">
                 <label class="user-name">Truong Viet Long</label>
                 <label class="user-status"><span class="status-dot"></span>Online </label>
             </div>
-            <div class="info-logo">
-                <button class="btn_profile" name="btn-profile">                <img class="info-icon" src="/Images/icons8-ellipsis-16.png" alt="Info Icon"></button>
-            </div>
+            <button class="btn_profile" name="btn-profile">
+                <div class="icon-info">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
         </div>
     </div>
-<div class="message_area">
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
-            <div class="message you">
-                <p>This is a message from you.</p>
-            </div>
-            <div class="message friend">
-                <p>This is a message from another person.</p>
-            </div>
+    <div class="message_area">
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
         </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+    </div>
     <div class="type">
-        <button type="button" onClick="openFileUploader()" ><img src="/Images/icons8-paper-clip-16 (1).png"></button>
-        <input type="file" name="file-upload" id="file-upload" style="display: none;">
-        <input type="text" name="input-message" placeholder="Type a message here...">
-        <button type="button" class="send-button"><img src="/Images/icons8-send-16.png"></button>
+        <button type="button" onClick="openFileUploader()"><div class="icon-info"><i class="fa-solid fa-paperclip"></i></div></button>
+        <input type="file" name="file-upload" id="file-upload" style="display: none;">        
+        <input type="text" name="input-message" placeholder=" Type a message here...">     
+        <button type="button" class="send-button"><div class="icon-info"><i class="fa-solid fa-paper-plane fa-sm"></i></div></button>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

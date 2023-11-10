@@ -1,7 +1,6 @@
 /* Bar1 */
 .vertical-bar {
-  width: 40px;
-  height: 96vh;
+  height: 100vh;
   background-color: #2b2b2b;
   border-left: 5px solid green;
   display: flex;
@@ -66,6 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  padding-left: 30px;
 }
 
 .message .sender {
@@ -91,7 +91,7 @@ body {
 }
 
 .transparent-button {
-  width: 95.4vw;
+  width: 100vw;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -114,8 +114,9 @@ body {
 
 .user-avatar {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover
 }
 
 .user-details {
@@ -130,7 +131,6 @@ body {
   flex: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 .user-name {
@@ -145,6 +145,7 @@ body {
   margin: 0;
   font-style: italic;
   color: gray;
+  padding-top: 2px;
 }
 
 .btn_profile {
@@ -152,6 +153,7 @@ body {
   background: none;
   padding: 0;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 .status-dot {
@@ -167,12 +169,22 @@ body {
 
 /* Message Area */
 .message_area {
-  height: 80vh;
+  height: 84vh;
   overflow-y: auto;
   background-color: #f0f0f0;
 }
 
-.message {
+.icon-info {
+  color: gray;
+  font-size: 24px;
+  transition: color 0.3s;
+}
+
+.icon-info:hover {
+  color: #666;
+}
+
+.message-chat {
   font-size: 12px;
   padding: 10px;
   margin: 10px;
@@ -181,15 +193,17 @@ body {
 }
 
 .you {
-  background-color: #3498db;
+  background-color: gray;
   color: #fff;
   float: right;
+  box-shadow: 3px 3px 5px #666;
 }
 
 .friend {
-  background-color: #e1e1e1;
+  background-color: white;
   color: #333;
   float: left;
+  box-shadow: 3px 3px 5px #666;
 }
 
 /* Input */
@@ -207,13 +221,15 @@ body {
 }
 
 .type input[type="text"] {
-  border-radius: 9px;
-  flex: 1;
+  background-color: rgb(240, 240, 240);
+  border: none;
+  color: black;
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 25px;
 }
 
 .type button {
-  background-color: #3498db;
-  color: #fff;
   border: none;
   padding: 5px;
   border-radius: 10px;
@@ -241,6 +257,93 @@ body {
   color: #fff;
   padding: 8px 15px;
   border-radius: 5px;
+}
+
+/*Profile*/
+.avatar-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.user-avatar-profile {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.user-name-profile {
+  font-size: larger;
+  padding-top: 20px;
+}
+
+.user-location {
+  color: gray;
+  font-size: medium;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.user-decription {
+  font-size: small;
+  padding-top: 2px;
+}
+
+.user-social-media {
+  border-bottom: 1px solid #666;
+  padding-bottom: 5px;
+}
+
+.btn-social-media {
+  background-color: transparent;
+  color: gray;
+  border: none;
+  cursor: pointer;
+  font-size: xx-large;
+  transition: background-color 0.3s ease;
+  padding: 20px;
+}
+
+.btn-delete {
+  display: flex;
+  background-color: transparent;
+  margin-left: auto; 
+  color: gray;
+  border: none;
+  cursor: pointer;
+  font-size: medium;
+  transition: background-color 0.3s ease;
+  padding: 30px 20px 0 0 
+}
+.btn-social-media:hover,
+.btn-delete:hover {
+  color: #666;
+}
+
+.user-info-profile {
+  padding: 15px;
+  border-bottom: 1px solid #666;
+}
+
+.user-file {
+  font-size: small;
+  padding: 20px;
+  padding-left: 40px;
+  color: gray;
+}
+.user-show-file{
+  font-size: small;
+  padding-left: 40px;
+  color: gray;
+}
+.border{
+  height: 100vh;
+  border-right: 5px solid green;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
 /*CSS của Login*/
