@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +25,7 @@
 .icon,
 .icon-gear {
   color: gray;
+  cursor: pointer;
   font-size: 24px;
   transition: color 0.3s;
 }
@@ -53,6 +55,19 @@ body {
   font-family: Arial, sans-serif;
 }
 
+select {
+  border: none;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+}
+
+select:hover {
+  background-color: rgb(240, 240, 240);
+  border-radius: 25px;
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -98,6 +113,21 @@ body {
   margin-right: 20px;
 }
 
+.btn-search-add {
+  display: flex;
+  background-color: transparent;
+  margin-left: auto;
+  color: gray;
+  border: none;
+  cursor: pointer;
+  font-size: medium;
+  transition: background-color 0.3s ease;
+}
+
+.btn-search-add:hover {
+  color: #666;
+}
+
 .transparent-button {
   width: 100vw;
   background-color: transparent;
@@ -111,6 +141,10 @@ body {
 
 .transparent-button:hover {
   background-color: rgb(240, 240, 240);
+}
+
+.transparent-button.active {
+  background-color: rgb(225, 225, 225);
 }
 
 /* Friend */
@@ -183,9 +217,13 @@ body {
 }
 
 .icon-info {
+  display: flex;
+  background-color: transparent;
   color: gray;
+  border: none;
+  cursor: pointer;
   font-size: 24px;
-  transition: color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .icon-info:hover {
@@ -193,9 +231,9 @@ body {
 }
 
 .message-chat {
-  font-size: 12px;
+  font-size: 13px;
   padding: 10px;
-  margin: 10px;
+  margin: 3px 10px 5px 3px;
   border-radius: 50px;
   clear: both;
 }
@@ -219,13 +257,15 @@ body {
   display: flex;
   align-items: center;
   background-color: #f4f4f4;
-  padding: 10px;
+  padding: 12px;
 }
 
 .type input[type="text"],
 .type input[type="file"],
 .type button {
   margin-right: 10px;
+  background-color: transparent;
+  border: none;
 }
 
 .type input[type="text"] {
@@ -318,14 +358,15 @@ body {
 .btn-delete {
   display: flex;
   background-color: transparent;
-  margin-left: auto; 
+  margin-left: auto;
   color: gray;
   border: none;
   cursor: pointer;
   font-size: medium;
   transition: background-color 0.3s ease;
-  padding: 30px 20px 0 0 
+  padding: 23px 20px 0 0
 }
+
 .btn-social-media:hover,
 .btn-delete:hover {
   color: #666;
@@ -342,12 +383,14 @@ body {
   padding-left: 40px;
   color: gray;
 }
-.user-show-file{
+
+.user-show-file {
   font-size: small;
   padding-left: 40px;
   color: gray;
 }
-.border{
+
+.border {
   height: 100vh;
   border-right: 5px solid green;
   border-top-right-radius: 25px;

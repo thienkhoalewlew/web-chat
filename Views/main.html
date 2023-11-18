@@ -5,18 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <frameset border="" cols="80,340,*,300">
-        <frame name="frame1" src="bar_1.html" scrolling="no" noresize>
-            <frame name="frame5" src="bar_2.html" scrolling="auto" noresize>
-                <frame name="frame5" src="chat_area.html" scrolling="no" noresize></frame>
-                <frame name="frame5" src="profile.html" scrolling="no" noresize></frame>
-    </frameset>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .frame-container {
+            display: flex;
+            height: 100%;
+        }
+
+        .frame-container iframe {
+            border: none;
+            height: 100%;
+        }
+    </style>
+    <script>
+        var profileIframe = null;
+        window.addEventListener('message', function (event) {
+            if (event.data === 'toggleProfile') {
+                var container = document.getElementById('iframe-container');
+                if (profileIframe) {
+                    container.removeChild(profileIframe);
+                    profileIframe = null;
+                } else {
+                    profileIframe = document.createElement('iframe');
+                    profileIframe.name = 'frprofile';
+                    profileIframe.src = 'profile.html';
+                    profileIframe.scrolling = 'no';
+                    profileIframe.style.width = '300px';
+                    container.appendChild(profileIframe);
+                }
+            }
+        });
+    </script>
 </head>
-<noframes>
 
-    <body>
-
-    </body>
-</noframes>
+<body>
+    <div class="frame-container" id="iframe-container">
+        <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 80px;"></iframe>
+        <iframe name="frbar_2" src="bar_2.html" scrolling="no" style="width: 340px;"></iframe>
+        <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1;"></iframe>
+    </div>
+</body>
 
 </html>

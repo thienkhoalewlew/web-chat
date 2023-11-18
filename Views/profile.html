@@ -10,7 +10,7 @@
 
 <body>
     <div class="border">
-        <button class="btn-delete"><i class="fa-solid fa-x"></i></button>
+        <button class="btn-delete" name="btn-delete" id="btn-delete"><i class="fa-solid fa-x"></i></button>
         <div class="avatar-profile">
             <img class="user-avatar-profile" src="../Images/avatar.jpg" alt="Avatar">
             <div class="user-name-profile"><label id="user_name"><strong>Truong Viet Long</strong></label></div>
@@ -29,6 +29,11 @@
         </div>
         <div class="user-file"><label id="File">File(69):</label></div>
     </div>
+    <script>
+        document.getElementById("btn-delete").addEventListener("click", function () {
+            window.parent.postMessage('toggleProfile', '*');
+        });
+    </script>
 </body>
 
 
