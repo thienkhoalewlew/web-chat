@@ -68,6 +68,7 @@ select:hover {
   background-color: rgb(240, 240, 240);
   border-radius: 25px;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -83,7 +84,35 @@ select:hover {
   padding: 10px;
   border-radius: 25px;
 }
+.friend-container {
+  display: flex;
+  align-items: center;
+  padding: 20px 20px 0px 25px;
+}
 
+.friend-avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover
+}
+
+.friend-details {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.friend-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.friend-status {
+  font-size: 10px;
+  color: gray;
+  padding-top: 2px;
+}
 .message {
   display: flex;
   flex-direction: column;
@@ -91,23 +120,12 @@ select:hover {
   padding-left: 30px;
 }
 
-.message .sender {
-  font-weight: bold;
-}
-
-.message .status {
-  font-size: 12px;
-  color: #666;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 .message .content {
   margin-top: 5px;
 }
 
 .message .timestamp {
-  font-size: 12px;
+  font-size: 10px;
   color: #666;
   margin-top: 5px;
   margin-right: 20px;
@@ -129,8 +147,9 @@ select:hover {
 }
 
 .transparent-button {
-  width: 100vw;
+  width: 94vw;
   background-color: transparent;
+  margin-left: 10px;
   border: none;
   cursor: pointer;
   overflow: hidden;
@@ -198,15 +217,20 @@ select:hover {
   border-radius: 10px;
 }
 
-.status-dot {
-  width: 4px;
-  height: 4px;
-  background-color: rgb(32, 179, 32);
+.status-dot-online{
+  background-color: red;
+}
+.status-dot-offline{
+  background-color: gray;
+}
+.status-dot-online,
+.status-dot-offline{
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   display: inline-block;
-  padding: 1px;
+  padding: 2px;
   margin-right: 2px;
-  margin-bottom: 1.8px;
 }
 
 /* Message Area */
@@ -306,6 +330,32 @@ select:hover {
   padding: 8px 15px;
   border-radius: 5px;
 }
+#emoji-button {
+  cursor: pointer;
+  position: relative;
+}
+.emoji-list {
+  display: none;
+  position: absolute;
+  top: 52%;
+  left: 81%;
+  transform: translateX(-50%);
+  width: 300px; 
+  max-height: 300px; 
+  overflow-y: auto; 
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.emoji-list button {
+  font-size: 23px;
+  margin: 5px;
+  cursor: pointer;
+}
 
 /*Profile*/
 .avatar-profile {
@@ -368,7 +418,7 @@ select:hover {
 }
 
 .btn-social-media:hover,
-.btn-delete:hover {
+.btn-delete:hover{
   color: #666;
 }
 
@@ -395,4 +445,74 @@ select:hover {
   border-right: 5px solid green;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+}
+.btn-setting{
+  display: flex;
+  width: 94vw;
+  align-items: center;
+  margin-left: 6px;
+  background-color: transparent;
+  color: gray;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: medium;
+  transition: background-color 0.3s ease;
+  padding: 10px 40px 10px 40px;
+}
+.btn-setting i {
+  margin-right: 15px; 
+}
+.btn-setting:hover,
+.btn-cancel:hover{
+  background-color: rgb(240, 240, 240);
+  color: #666;
+}
+.title{
+  border-bottom: 1px solid #666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  padding-bottom: 15px;
+  font-size: large;
+}
+.icon-adjust{
+  font-size: 60px;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 22px;
+}
+.btn-adjust{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: bold;
+  padding: 10px;
+}
+.btn-cancel{
+  background-color: transparent;
+  width: 7vw;
+  color: gray;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: medium;
+  transition: background-color 0.3s ease;
+}
+.btn-confirm{
+  background-color: gray;
+  width: 7vw;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: medium;
+  transition: background-color 0.3s ease;
+}
+.btn-confirm:hover{
+  background-color: #666;
+  color: rgb(240, 240, 240);
 }

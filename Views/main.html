@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Document</title>
     <style>
         body,
@@ -20,6 +22,33 @@
         .frame-container iframe {
             border: none;
             height: 100%;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            width: 30%;
+            height: 30%;
         }
     </style>
     <script>
@@ -39,7 +68,19 @@
                     container.appendChild(profileIframe);
                 }
             }
+            if (event.data === 'blockUser') {
+                var modal = document.getElementById('myModal');
+                var overlay = document.getElementById('overlay');
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            }
         });
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            var overlay = document.getElementById('overlay');
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
     </script>
 </head>
 
@@ -48,6 +89,16 @@
         <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 80px;"></iframe>
         <iframe name="frbar_2" src="bar_2.html" scrolling="no" style="width: 340px;"></iframe>
         <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1;"></iframe>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <div id="myModal" class="modal">
+        <p class="title">Block this user?</p>
+        <p class="icon-adjust"><i class="fa-solid fa-user-slash"></i></p>
+        <p style="font-size: 12px;">After blocking you will not receive any messages from this person</p>
+        <div class="btn-adjust">
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button class="btn-confirm" onclick="closeModal()">Block</button>      
+        </div>
     </div>
 </body>
 

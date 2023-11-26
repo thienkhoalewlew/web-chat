@@ -29,26 +29,47 @@
 	</div>
 
 	<button class="transparent-button">
+		<div class="friend-container">
+			<img class="friend-avatar" src="../Images/André_Onana.jpg" alt="Avatar">
+			<div class="friend-details">
+				<div class="friend-info">
+					<label class="friend-name">Onana</label><br>
+					<label class="friend-status"><span class="status-dot-online"></span>Online </label>
+				</div>
+			</div>
+		</div>
 		<div class="message">
-			<div class="sender">Onana</div>
-			<div class="status">Online</div>
 			<div class="content">I am the SpiderMan!!!</div>
 			<div class="timestamp">10:30 AM</div>
 		</div>
 	</button>
 	<button class="transparent-button">
-		<div class="message">
-			<div class="sender">Sang Traan</div>
-			<div class="status">Offline</div>
-			<div class="content">Yes sirrrrr!!!!!!</div>
-			<div class="timestamp">Yesterday</div>
+		<div class="friend-container">
+			<img class="friend-avatar" src="../Images/SangTraan.jpg" alt="Avatar">
+			<div class="friend-details">
+				<div class="friend-info">
+					<label class="friend-name">Sang Traan</label><br>
+					<label class="friend-status"><span class="status-dot-offline"></span>Offline</label>
+				</div>
+			</div>
 		</div>
+			<div class="message">
+				<div class="content">Yes sirrrrr!!!!!!</div>
+				<div class="timestamp">Yesterday</div>
+			</div>
 	</button>
 	<button class="transparent-button">
+		<div class="friend-container">
+			<img class="friend-avatar" src="../Images/Archetto.jpg" alt="Avatar">
+			<div class="friend-details">
+				<div class="friend-info">
+					<label class="friend-name">Archetto</label><br>
+					<label class="friend-status"><span class="status-dot-online"></span>Online</label>
+				</div>
+			</div>
+		</div>
 		<div class="message">
-			<div class="sender">Archetto</div>
-			<div class="status">Online</div>
-			<div class="content">Bread or Beer?</div>
+			<div class="content">Laterano</div>
 			<div class="timestamp">2 days ago</div>
 		</div>
 	</button>
@@ -59,9 +80,9 @@
 			for (var i = 0; i < buttons.length; i++) {
 				buttons[i].addEventListener('click', function () {
 					for (var j = 0; j < buttons.length; j++) {
-						buttons[j].classList.remove('active'); 
+						buttons[j].classList.remove('active');
 					}
-					this.classList.add('active'); 
+					this.classList.add('active');
 				});
 			}
 		});
