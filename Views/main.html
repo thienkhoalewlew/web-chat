@@ -69,14 +69,20 @@
                 }
             }
             if (event.data === 'blockUser') {
-                var modal = document.getElementById('myModal');
+                var modal = document.getElementById('myModalBlock');
+                var overlay = document.getElementById('overlay');
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+            if (event.data === 'tonUser') {
+                var modal = document.getElementById('myModalTon');
                 var overlay = document.getElementById('overlay');
                 modal.style.display = 'block';
                 overlay.style.display = 'block';
             }
         });
-        function closeModal() {
-            var modal = document.getElementById('myModal');
+        function closeModal(Model) {
+            var modal = document.getElementById(Model);
             var overlay = document.getElementById('overlay');
             modal.style.display = 'none';
             overlay.style.display = 'none';
@@ -91,13 +97,22 @@
         <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1;"></iframe>
     </div>
     <div class="overlay" id="overlay"></div>
-    <div id="myModal" class="modal">
+    <div id="myModalBlock" class="modal">
         <p class="title">Block this user?</p>
         <p class="icon-adjust"><i class="fa-solid fa-user-slash"></i></p>
-        <p style="font-size: 12px;">After blocking you will not receive any messages from this person</p>
+        <p style="font-size: 12px;">After blocking you will not receive any messages from this user</p>
         <div class="btn-adjust">
-            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-            <button class="btn-confirm" onclick="closeModal()">Block</button>      
+            <button class="btn-cancel" onclick="closeModal('myModalBlock')">Cancel</button>
+            <button class="btn-confirm" onclick="closeModal('myModalBlock')">Block</button>
+        </div>
+    </div>
+    <div id="myModalTon" class="modal">
+        <p class="title">Turn off notifications this user?</p>
+        <p class="icon-adjust"><i class="fa-solid fa-bell-slash"></i></p>
+        <p style="font-size: 12px;">After turning off you will not receive any notifications from this user</p>
+        <div class="btn-adjust">
+            <button class="btn-cancel" onclick="closeModal('myModalTon')">Cancel</button>
+            <button class="btn-confirm" onclick="closeModal('myModalTon')">Turn Off</button>
         </div>
     </div>
 </body>

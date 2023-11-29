@@ -356,6 +356,29 @@ select:hover {
   margin: 5px;
   cursor: pointer;
 }
+.choose-file {
+  display: none;
+  position: absolute;
+  top: 83%;
+  left: 8%;
+  transform: translateX(-50%);
+  overflow-y: auto; 
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+.hidden {
+  display: none;
+}
+.choose-file button {
+  color: gray;
+  font-size: 23px;
+  margin: 8px;
+  cursor: pointer;
+}
 
 /*Profile*/
 .avatar-profile {
