@@ -4,19 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Document</title>
-    <frameset border="" cols="80,340,*,300">
-        <frame name="frame1" src="bar_1.html" scrolling="no" noresize>
-            <frame name="frame5" src="bar_2.html" scrolling="auto" noresize>
-                <frame name="frame5" src="chat_area.html" scrolling="no" noresize></frame>
-                <frame name="frame5" src="profile.html" scrolling="no" noresize></frame>
-    </frameset>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .frame-container {
+            display: flex;
+            height: 100%;
+        }
+
+        .frame-container iframe {
+            border: none;
+            height: 100%;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            width: 30%;
+            height: 30%;
+        }
+    </style>
+    <script>
+        var profileIframe = null;
+        window.addEventListener('message', function (event) {
+            if (event.data === 'toggleProfile') {
+                var container = document.getElementById('iframe-container');
+                if (profileIframe) {
+                    container.removeChild(profileIframe);
+                    profileIframe = null;
+                } else {
+                    profileIframe = document.createElement('iframe');
+                    profileIframe.name = 'frprofile';
+                    profileIframe.src = 'profile.html';
+                    profileIframe.scrolling = 'no';
+                    profileIframe.style.width = '300px';
+                    container.appendChild(profileIframe);
+                }
+            }
+            if (event.data === 'blockUser') {
+                var modal = document.getElementById('myModal');
+                var overlay = document.getElementById('overlay');
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        });
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            var overlay = document.getElementById('overlay');
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>
 </head>
-<noframes>
 
-    <body>
-
-    </body>
-</noframes>
+<body>
+    <div class="frame-container" id="iframe-container">
+        <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 80px;"></iframe>
+        <iframe name="frbar_2" src="bar_2.html" scrolling="no" style="width: 340px;"></iframe>
+        <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1;"></iframe>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <div id="myModal" class="modal">
+        <p class="title">Block this user?</p>
+        <p class="icon-adjust"><i class="fa-solid fa-user-slash"></i></p>
+        <p style="font-size: 12px;">After blocking you will not receive any messages from this person</p>
+        <div class="btn-adjust">
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button class="btn-confirm" onclick="closeModal()">Block</button>      
+        </div>
+    </div>
+</body>
 
 </html>

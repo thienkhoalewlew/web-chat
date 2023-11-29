@@ -10,7 +10,7 @@
 
 <body>
     <div class="border">
-        <button class="btn-delete"><i class="fa-solid fa-x"></i></button>
+        <button class="btn-delete" name="btn-delete" id="btn-delete"><i class="fa-solid fa-x"></i></button>
         <div class="avatar-profile">
             <img class="user-avatar-profile" src="../Images/avatar.jpg" alt="Avatar">
             <div class="user-name-profile"><label id="user_name"><strong>Truong Viet Long</strong></label></div>
@@ -28,7 +28,22 @@
             </div>
         </div>
         <div class="user-file"><label id="File">File(69):</label></div>
+        <button class="btn-setting" name="btn-ton" id="btn-ton"><i class="fa-solid fa-bell-slash"></i>Turn off
+            notifications</button>
+        <button class="btn-setting" name="btn-block" id="btn-block" onclick="showModal()"><i
+                class="fa-solid fa-user-slash"></i>Block</button>
+        <button class="btn-setting" name="btn-report" id="btn-report"><i
+                class="fa-solid fa-triangle-exclamation"></i>Report</button>
+        
     </div>
+    <script>
+        document.getElementById("btn-delete").addEventListener("click", function () {
+            window.parent.postMessage('toggleProfile', '*');
+        });
+        document.getElementById("btn-block").addEventListener("click", function () {
+            window.parent.postMessage('blockUser', '*');
+        });
+    </script>
 </body>
 
 

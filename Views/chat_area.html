@@ -14,12 +14,13 @@
         <div class="user-details">
             <div class="user-info">
                 <label class="user-name">Truong Viet Long</label>
-                <label class="user-status"><span class="status-dot"></span>Online </label>
+                <label class="user-status"><span class="status-dot-online"></span>Online </label>
             </div>
-            <button class="btn_profile" name="btn-profile">
+            <button class="btn_profile" name="btn-profile" id="btn-profile">
                 <div class="icon-info">
                     <i class="fa-solid fa-circle-info"></i>
                 </div>
+            </button>
         </div>
     </div>
     <div class="message_area">
@@ -59,14 +60,110 @@
         <div class="message-chat friend">
             <p>This is a message from another person.</p>
         </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
+        <div class="message-chat you">
+            <p>This is a message from you.</p>
+        </div>
+        <div class="message-chat friend">
+            <p>This is a message from another person.</p>
+        </div>
     </div>
     <div class="type">
-        <button type="button" onClick="openFileUploader()"><div class="icon-info"><i class="fa-solid fa-paperclip"></i></div></button>
-        <input type="file" name="file-upload" id="file-upload" style="display: none;">        
-        <input type="text" name="input-message" placeholder=" Type a message here...">     
-        <button type="button" class="send-button"><div class="icon-info"><i class="fa-solid fa-paper-plane fa-sm"></i></div></button>
+        <button type="button" onClick="openFileUploader()">
+            <div class="icon-info"><i class="fa-solid fa-paperclip"></i></div>
+        </button>
+        <input type="file" name="file-upload" id="file-upload" style="display: none;">
+        <input type="text" name="input-message" id="input-message" placeholder="Type a message here..."
+            autocomplete="off">
+        <button type="button" name="emoji-button" id="emoji-button">
+            <div class="icon-info"><i class="fa-solid fa-face-smile"></i></div>
+        </button>
+        <div class="emoji-list" id="emoji-list">
+
+        </div>
+        <button type="button" class="send-button" name="send-button">
+            <div class="icon-info"><i class="fa-solid fa-paper-plane fa-sm"></i></div>
+        </button>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        window.onload = function () {
+            function scrollToBottom() {
+                var messageArea = document.querySelector('.message_area');
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }
+            scrollToBottom();
+            document.querySelector('.send-button').addEventListener('click', function () {
+                var inputMessage = document.querySelector('input[name="input-message"]');
+                if (inputMessage.value.trim() === '') {
+                    inputMessage.value = '';
+                    var placeholders = [
+                        'Nhập vào đi bạn ơi!!!',
+                        'Biết đọc không???',
+                        'Để khoảng trắng sao mà nhắn được???',
+                        'Bố mày biết rồi không được đâu con ơi!',
+                        'Có biết dùng chat không???'
+                    ];
+                    inputMessage.setAttribute('placeholder', placeholders[Math.floor(Math.random() * placeholders.length)]);
+                } else {
+                    var messageArea = document.querySelector('.message_area');
+                    var newMessage = document.createElement('div');
+                    newMessage.classList.add('message-chat', 'you');
+                    var newMessageText = document.createTextNode(inputMessage.value);
+                    newMessage.appendChild(newMessageText);
+                    messageArea.appendChild(newMessage);
+                    inputMessage.value = '';
+                    inputMessage.placeholder = 'Type a message here...'
+                    scrollToBottom();
+                }
+            });
+        }
+        document.getElementById("btn-profile").addEventListener("click", function () {
+            window.parent.postMessage('toggleProfile', '*');
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.querySelector('.send-button').click();
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const emojiButton = document.getElementById('emoji-button');
+            const emojiList = document.getElementById('emoji-list');
+            const inputMessage = document.getElementById('input-message');
+            const emojis = [];
+            for (let i = 0x1F600; i <= 0x1F64F; i++) {
+                emojis.push(String.fromCodePoint(i));
+            }
+            emojis.forEach(emoji => {
+                const emojiBtn = document.createElement('button');
+                emojiBtn.innerText = emoji;
+                emojiBtn.addEventListener('click', function () {
+                    inputMessage.value += emoji;
+                    emojiList.style.display = 'none';
+                });
+                emojiList.appendChild(emojiBtn);
+            });
+            emojiButton.addEventListener('click', function () {
+                emojiList.style.display = (emojiList.style.display === 'block') ? 'none' : 'block';
+            });
+            document.addEventListener('click', function (event) {
+                if (!emojiButton.contains(event.target) && !emojiList.contains(event.target)) {
+                    emojiList.style.display = 'none';
+                }
+            });
+        });
+        function openFileUploader() {
+            var fileInput = document.getElementById('file-upload');
+            fileInput.click();
+        }
+    </script>
 </body>
 
 </html>
