@@ -50,6 +50,35 @@
             width: 30%;
             height: 30%;
         }
+
+        .modal-config {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            width: 30%;
+            height: 87%;
+        }
+
+        .modal-config-inside {
+            display: none;
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            height: 72%;
+        }
     </style>
     <script>
         var profileIframe = null;
@@ -80,6 +109,14 @@
                 modal.style.display = 'block';
                 overlay.style.display = 'block';
             }
+            if (event.data === 'configUser') {
+                var modal = document.getElementById('myModelConfigUser');
+                var modal_inside = document.getElementById('myModelConfigUserInside');
+                var overlay = document.getElementById('overlay');
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+                modal_inside.style.display = 'block'
+            }
         });
         function closeModal(Model) {
             var modal = document.getElementById(Model);
@@ -87,12 +124,16 @@
             modal.style.display = 'none';
             overlay.style.display = 'none';
         }
+        function openFileUploader(File) {
+            var fileInput = document.getElementById(File);
+            fileInput.click();
+        }
     </script>
 </head>
 
 <body>
     <div class="frame-container" id="iframe-container">
-        <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 80px;"></iframe>
+        <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 100px;"></iframe>
         <iframe name="frbar_2" src="bar_2.html" scrolling="no" style="width: 340px;"></iframe>
         <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1;"></iframe>
     </div>
@@ -113,6 +154,36 @@
         <div class="btn-adjust">
             <button class="btn-cancel" onclick="closeModal('myModalTon')">Cancel</button>
             <button class="btn-confirm" onclick="closeModal('myModalTon')">Turn Off</button>
+        </div>
+    </div>
+    <div id="myModelConfigUser" class="modal-config">
+        <div class="line-through"></div>
+        <div class="btn-container">
+            <button class="btn-user" id="change-avt" onclick="openFileUploader('file-upload')">
+                <img class="user-avatar-config" src="../Images/avatar.jpg" alt="Avatar">
+                <i class="fa-solid fa-camera" style="z-index: 2; margin-left: 15px; font-size: xx-large;"></i>
+            </button>
+            <input type="file" name="file-upload" id="file-upload" class="hidden" accept="image/jpeg, image/png">
+            <button class="btn-logout" name="btn-ton" id="btn-ton"><i class="fa-solid fa-right-from-bracket"></i>Log
+                Out</button>
+        </div>
+        <div id="myModelConfigUserInside" class="modal-config-inside">
+            <p class="lable-config">DISPLAY NAME</p>
+            <input type="text" id="displayname" class="textbox-config" value="Thiện Satan">
+            <p class="lable-config">LOCATION</p>
+            <input type="text" id="location" class="textbox-config" value="Hell">
+            <p class="lable-config">DESCRIPTION</p>
+            <input type="text" id="location" class="textbox-config">
+            <p class="lable-config">PHONE</p>
+            <input type="text" id="location" class="textbox-config">
+            <p class="lable-config">EMAIL</p>
+            <input type="text" id="location" class="textbox-config">
+            <p class="lable-config">DAY OF BIRTH</p>
+            <input type="text" id="location" class="textbox-config">
+            <div class="btn-adjust" style="margin-top: 28px;">
+                <button class="btn-cancel" onclick="closeModal('myModelConfigUser')">Cancel</button>
+                <button class="btn-confirm" onclick="closeModal('myModelConfigUser')">Save</button>
+            </div>
         </div>
     </div>
 </body>
