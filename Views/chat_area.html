@@ -77,9 +77,12 @@
         <button type="button" id="choose-file">
             <div class="icon-info"><i class="fa-solid fa-circle-plus"></i></div>
         </button>
-        <button type="button" id="buttonFile" class="hidden" onclick="openFileUploader('file-upload')"><i class="fa-solid fa-paperclip"></i></button>
-        <button type="button" id="buttonPicture" class="hidden" onclick="openFileUploader('file-upload-pic')"><i class="fa-solid fa-image"></i></button>
-        <button type="button" id="buttonAudio" class="hidden" onclick="openFileUploader('file-upload-aud')"><i class="fa-solid fa-microphone"></i></button>
+        <button type="button" id="buttonFile" class="hidden" onclick="openFileUploader('file-upload')"><i
+                class="fa-solid fa-paperclip"></i></button>
+        <button type="button" id="buttonPicture" class="hidden" onclick="openFileUploader('file-upload-pic')"><i
+                class="fa-solid fa-image"></i></button>
+        <button type="button" id="buttonAudio" class="hidden" onclick="openFileUploader('file-upload-aud')"><i
+                class="fa-solid fa-microphone"></i></button>
         <div class="choose-file" id="choose-file-list"></div>
         <input type="file" name="file-upload" id="file-upload" class="hidden">
         <input type="file" name="file-upload" id="file-upload-pic" class="hidden" accept="image/jpeg, image/png">
@@ -95,13 +98,43 @@
         </button>
     </div>
 
-    <script src="..\node_modules\socket.io\client-dist\socket.io.js"> 
-        // Kết nối tới server thông qua Socket.IO
+    <script src="..\node_modules\socket.io\client-dist\socket.io.js">
+        /*window.onload = function () {
+            function scrollToBottom() {
+                var messageArea = document.querySelector('.message_area');
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }
+            scrollToBottom();
+            document.querySelector('.send-button').addEventListener('click', function () {
+                var inputMessage = document.querySelector('input[name="input-message"]');
+                if (inputMessage.value.trim() === '') {
+                    inputMessage.value = '';
+                    var placeholders = [
+                        'Nhập vào đi bạn ơi!!!',
+                        'Biết đọc không???',
+                        'Để khoảng trắng sao mà nhắn được???',
+                        'Bố mày biết rồi không được đâu con ơi!',
+                        'Có biết dùng chat không???'
+                    ];
+                    inputMessage.setAttribute('placeholder', placeholders[Math.floor(Math.random() * placeholders.length)]);
+                } else {
+                    var messageArea = document.querySelector('.message_area');
+                    var newMessage = document.createElement('div');
+                    newMessage.classList.add('message-chat', 'you');
+                    var newMessageText = document.createTextNode(inputMessage.value);
+                    newMessage.appendChild(newMessageText);
+                    messageArea.appendChild(newMessage);
+                    inputMessage.value = '';
+                    inputMessage.placeholder = 'Type a message here...'
+                    scrollToBottom();
+                }
+            });
+        }*/
         const socket = io();
         socket.on('connect', function () {
             console.log('Đã kết nối thành công tới server');
         });
-        window.onload = function () {         
+        window.onload = function () {
             scrollToBottom();
             document.querySelector('.send-button').addEventListener('click', function () {
                 var inputMessage = document.querySelector('input[name="input-message"]');
@@ -129,7 +162,7 @@
                     scrollToBottom();
                 }
             });
-          
+
             // Lắng nghe sự kiện nhận tin nhắn từ server và hiển thị trong chat
             socket.on('message', function (message) {
                 var messageArea = document.querySelector('.message_area');
@@ -140,7 +173,8 @@
                 messageArea.appendChild(newMessage);
                 scrollToBottom();
             });
-          }
+        }
+
         document.getElementById("btn-profile").addEventListener("click", function () {
             window.parent.postMessage('toggleProfile', '*');
         });
@@ -175,7 +209,30 @@
                     emojiList.style.display = 'none';
                 }
             });
-
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const choose_file = document.getElementById('choose-file');
+            const choose_file_list = document.getElementById('choose-file-list');
+            const buttonFile = document.getElementById('buttonFile');
+            const buttonPicture = document.getElementById('buttonPicture');
+            const buttonAudio = document.getElementById('buttonAudio');
+            choose_file_list.appendChild(buttonFile);
+            choose_file_list.appendChild(buttonPicture);
+            choose_file_list.appendChild(buttonAudio);
+            buttonFile.classList.toggle('hidden');
+            buttonPicture.classList.toggle('hidden');
+            buttonAudio.classList.toggle('hidden');
+            choose_file.addEventListener('click', function () {
+                choose_file_list.style.display = (choose_file_list.style.display === 'block') ? 'none' : 'block';
+            });
+            document.addEventListener('click', function (event) {
+                if (!choose_file.contains(event.target) && !choose_file_list.contains(event.target)) {
+                    choose_file_list.style.display = 'none';
+                }
+            });
+        });
+        function openFileUploader(File) {
+            var fileInput = document.getElementById(File);
             fileInput.click();
         }
     </script>

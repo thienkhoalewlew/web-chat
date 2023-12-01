@@ -31,7 +31,7 @@
 }
 
 .icon-user {
-  margin: 20px 0 50px 0;
+  margin: 20px 0 20px 0;
 }
 
 .icon {
@@ -47,6 +47,112 @@
 .icon-gear:hover {
   color: white;
 }
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-user {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-logout {
+  background-color: gray;
+  width: 8vw;
+  height: 2vw;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: large;
+  transition: background-color 0.3s ease;
+  margin-top: 60px;
+  margin-right: 5px;
+}
+
+.btn-logout i {
+  margin-right: 10px;
+}
+
+.user-container {
+  position: relative;
+  display: inline-block;
+}
+
+.user-config {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.btn-user:hover .user-config,
+.btn-user:hover .user-avatar-config {
+  filter: brightness(70%);
+}
+
+.user-config+i,
+.user-avatar-config+i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-user:hover .user-config+i,
+.btn-user:hover .user-avatar-config+i {
+  opacity: 1;
+}
+
+.user-avatar-config {
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+  position: relative;
+  z-index: 2;
+  margin-left: 30px;
+}
+
+.line-through {
+  position: absolute;
+  left: 0;
+  top: 10%;
+  width: 100%;
+  height: 0.5px;
+  background-color: black;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.lable-config {
+  font-size: small;
+  font-weight: bold;
+  color: #666;
+}
+
+.textbox-config {
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+  border: none;
+  color: black;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
 
 /* Bar2 */
 body {
@@ -84,6 +190,7 @@ select:hover {
   padding: 10px;
   border-radius: 25px;
 }
+
 .friend-container {
   display: flex;
   align-items: center;
@@ -113,6 +220,7 @@ select:hover {
   color: gray;
   padding-top: 2px;
 }
+
 .message {
   display: flex;
   flex-direction: column;
@@ -217,14 +325,16 @@ select:hover {
   border-radius: 10px;
 }
 
-.status-dot-online{
+.status-dot-online {
   background-color: red;
 }
-.status-dot-offline{
+
+.status-dot-offline {
   background-color: gray;
 }
+
 .status-dot-online,
-.status-dot-offline{
+.status-dot-offline {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -330,19 +440,21 @@ select:hover {
   padding: 8px 15px;
   border-radius: 5px;
 }
+
 #emoji-button {
   cursor: pointer;
   position: relative;
 }
+
 .emoji-list {
   display: none;
   position: absolute;
   top: 52%;
   left: 81%;
   transform: translateX(-50%);
-  width: 300px; 
-  max-height: 300px; 
-  overflow-y: auto; 
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -356,13 +468,14 @@ select:hover {
   margin: 5px;
   cursor: pointer;
 }
+
 .choose-file {
   display: none;
   position: absolute;
-  top: 83%;
-  left: 8%;
+  margin-left: 70px;
+  margin-bottom: 110px;
   transform: translateX(-50%);
-  overflow-y: auto; 
+  overflow-y: auto;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -370,9 +483,11 @@ select:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
+
 .hidden {
   display: none;
 }
+
 .choose-file button {
   color: gray;
   font-size: 23px;
@@ -469,7 +584,8 @@ select:hover {
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
 }
-.btn-setting{
+
+.btn-setting {
   display: flex;
   width: 94vw;
   align-items: center;
@@ -483,15 +599,18 @@ select:hover {
   transition: background-color 0.3s ease;
   padding: 10px 40px 10px 40px;
 }
+
 .btn-setting i {
-  margin-right: 15px; 
+  margin-right: 15px;
 }
+
 .btn-setting:hover,
 .btn-cancel:hover{
-  background-color: rgb(240, 240, 240);
+  background-color: rgb(232, 229, 229);
   color: #666;
 }
-.title{
+
+.title {
   border-bottom: 1px solid #666;
   display: flex;
   justify-content: center;
@@ -500,7 +619,8 @@ select:hover {
   padding-bottom: 15px;
   font-size: large;
 }
-.icon-adjust{
+
+.icon-adjust {
   font-size: 60px;
   color: #666;
   display: flex;
@@ -508,14 +628,16 @@ select:hover {
   align-items: center;
   padding: 22px;
 }
-.btn-adjust{
+
+.btn-adjust {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   font-weight: bold;
   padding: 10px;
 }
-.btn-cancel{
+
+.btn-cancel {
   background-color: transparent;
   width: 7vw;
   color: gray;
@@ -525,7 +647,8 @@ select:hover {
   font-size: medium;
   transition: background-color 0.3s ease;
 }
-.btn-confirm{
+
+.btn-confirm {
   background-color: gray;
   width: 7vw;
   color: white;
@@ -535,7 +658,9 @@ select:hover {
   font-size: medium;
   transition: background-color 0.3s ease;
 }
-.btn-confirm:hover{
+
+.btn-confirm:hover,
+.btn-logout:hover  {
   background-color: #666;
   color: rgb(240, 240, 240);
 }
