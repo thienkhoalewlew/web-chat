@@ -95,12 +95,13 @@
         </button>
     </div>
 
-    <script>
-        window.onload = function () {
-            function scrollToBottom() {
-                var messageArea = document.querySelector('.message_area');
-                messageArea.scrollTop = messageArea.scrollHeight;
-            }
+    <script src="..\node_modules\socket.io\client-dist\socket.io.js"> 
+        // Kết nối tới server thông qua Socket.IO
+        const socket = io();
+        socket.on('connect', function () {
+            console.log('Đã kết nối thành công tới server');
+        });
+        window.onload = function () {         
             scrollToBottom();
             document.querySelector('.send-button').addEventListener('click', function () {
                 var inputMessage = document.querySelector('input[name="input-message"]');
@@ -121,12 +122,25 @@
                     var newMessageText = document.createTextNode(inputMessage.value);
                     newMessage.appendChild(newMessageText);
                     messageArea.appendChild(newMessage);
+                    // Gửi tin nhắn mới tới server thông qua Socket.IO
+                    socket.emit('chatMessage', inputMessage.value);
                     inputMessage.value = '';
                     inputMessage.placeholder = 'Type a message here...'
                     scrollToBottom();
                 }
             });
-        }
+          
+            // Lắng nghe sự kiện nhận tin nhắn từ server và hiển thị trong chat
+            socket.on('message', function (message) {
+                var messageArea = document.querySelector('.message_area');
+                var newMessage = document.createElement('div');
+                newMessage.classList.add('message-chat', 'friend');
+                var newMessageText = document.createTextNode(message);
+                newMessage.appendChild(newMessageText);
+                messageArea.appendChild(newMessage);
+                scrollToBottom();
+            });
+          }
         document.getElementById("btn-profile").addEventListener("click", function () {
             window.parent.postMessage('toggleProfile', '*');
         });
@@ -161,30 +175,7 @@
                     emojiList.style.display = 'none';
                 }
             });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            const choose_file = document.getElementById('choose-file');
-            const choose_file_list = document.getElementById('choose-file-list');
-            const buttonFile = document.getElementById('buttonFile');
-            const buttonPicture = document.getElementById('buttonPicture');
-            const buttonAudio = document.getElementById('buttonAudio');
-            choose_file_list.appendChild(buttonFile);
-            choose_file_list.appendChild(buttonPicture);
-            choose_file_list.appendChild(buttonAudio);
-            buttonFile.classList.toggle('hidden');
-            buttonPicture.classList.toggle('hidden');
-            buttonAudio.classList.toggle('hidden');
-            choose_file.addEventListener('click', function () {
-                choose_file_list.style.display = (choose_file_list.style.display === 'block') ? 'none' : 'block';
-            });
-            document.addEventListener('click', function (event) {
-                if (!choose_file.contains(event.target) && !choose_file_list.contains(event.target)) {
-                    choose_file_list.style.display = 'none';
-                }
-            });
-        });
-        function openFileUploader(File) {
-            var fileInput = document.getElementById(File);
+
             fileInput.click();
         }
     </script>

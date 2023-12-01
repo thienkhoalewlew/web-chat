@@ -312,7 +312,7 @@
         background: rgb(202, 99, 31);
         font-size: 2.1em;
         color: #fff;
-        display: flex;
+        display: flecx;
         justify-content: center;
         align-items: center;
         border-bottom-left-radius: 20px;
@@ -365,15 +365,15 @@
 
       <div class="form-box login">
         <h2>Login</h2>
-        <form action="#">
+        <form id="loginForm" action="login.js">
           <div class="input-box">
             <span class="iconLogin"> <ion-icon name="mail"></ion-icon></span>
-            <input type="text" required />
+            <input type="text" id="email" required />
             <label>Email</label>
           </div>
           <div class="input-box">
             <span class="iconLogin"> <ion-icon name="lock-closed"></ion-icon></span>
-            <input type="password" required />
+            <input type="password" id="password" required />
             <label for="password">Password</label>
           </div>
           <div class="remember-forgot">
