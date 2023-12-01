@@ -74,18 +74,22 @@
         </div>
     </div>
     <div class="type">
-        <button type="button" onClick="openFileUploader()">
-            <div class="icon-info"><i class="fa-solid fa-paperclip"></i></div>
+        <button type="button" id="choose-file">
+            <div class="icon-info"><i class="fa-solid fa-circle-plus"></i></div>
         </button>
-        <input type="file" name="file-upload" id="file-upload" style="display: none;">
+        <button type="button" id="buttonFile" class="hidden" onclick="openFileUploader('file-upload')"><i class="fa-solid fa-paperclip"></i></button>
+        <button type="button" id="buttonPicture" class="hidden" onclick="openFileUploader('file-upload-pic')"><i class="fa-solid fa-image"></i></button>
+        <button type="button" id="buttonAudio" class="hidden" onclick="openFileUploader('file-upload-aud')"><i class="fa-solid fa-microphone"></i></button>
+        <div class="choose-file" id="choose-file-list"></div>
+        <input type="file" name="file-upload" id="file-upload" class="hidden">
+        <input type="file" name="file-upload" id="file-upload-pic" class="hidden" accept="image/jpeg, image/png">
+        <input type="file" name="file-upload" id="file-upload-aud" class="hidden" accept="audio/mpeg, audio/wav">
         <input type="text" name="input-message" id="input-message" placeholder="Type a message here..."
             autocomplete="off">
         <button type="button" name="emoji-button" id="emoji-button">
             <div class="icon-info"><i class="fa-solid fa-face-smile"></i></div>
         </button>
-        <div class="emoji-list" id="emoji-list">
-
-        </div>
+        <div class="emoji-list" id="emoji-list"></div>
         <button type="button" class="send-button" name="send-button">
             <div class="icon-info"><i class="fa-solid fa-paper-plane fa-sm"></i></div>
         </button>
@@ -160,7 +164,6 @@
                 emojiBtn.innerText = emoji;
                 emojiBtn.addEventListener('click', function () {
                     inputMessage.value += emoji;
-                    emojiList.style.display = 'none';
                 });
                 emojiList.appendChild(emojiBtn);
             });
@@ -172,18 +175,7 @@
                     emojiList.style.display = 'none';
                 }
             });
-        });
-        socket.on('message', function (message) {
-            var messageArea = document.querySelector('.message_area');
-            var newMessage = document.createElement('div');
-            newMessage.classList.add('message-chat', 'friend');
-            var newMessageText = document.createTextNode(message);
-            newMessage.appendChild(newMessageText);
-            messageArea.appendChild(newMessage);
-            scrollToBottom();
-        });
-        function openFileUploader() {
-            var fileInput = document.getElementById('file-upload');
+
             fileInput.click();
         }
     </script>
