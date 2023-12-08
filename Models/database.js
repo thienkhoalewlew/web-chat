@@ -3,10 +3,10 @@ const sql = require('mssql');
 
 // Thông tin cấu hình kết nối đến SQL Server
 const config = {
-  user: 'sa', // Thay username bằng username của bạn
-  password: '123456789', // Thay password bằng password của bạn
-  server: 'localhost', // Thay localhost nếu SQL Server của bạn ở máy chủ khác
-  database: 'web_chat', // Thay tên-cua-csdl bằng tên của CSDL bạn muốn kết nối
+  user: 'sa', 
+  password: '123456789', 
+  server: 'localhost', 
+  database: 'web_chat',
   options: {
     trustServerCertificate: true // Thêm tùy chọn này để chấp nhận chứng chỉ tự ký
   }

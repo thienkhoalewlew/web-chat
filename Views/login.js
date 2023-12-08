@@ -55,7 +55,7 @@ loginForm.addEventListener('submit', async (e) => {
     if (response.ok) {
       const userId = data.userId;
       // Chuyển đến trang main.html với userId
-      window.location.href = `main.html?userId=${userId}`;
+      window.location.href = `index.html?userId=${userId}`;
     } else {
       res.status(401).json({ message: 'Email hoặc password không đúng' });
     }
