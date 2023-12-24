@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 
 * {
   margin: 0;
@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   /* display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,12 +26,6 @@ body {
   border: 8px solid #dddddd;
   border-radius: 24px;
   overflow: hidden;
-}
-
-.avatar{
-  height: 50px;
-  weight: 50px;
-  border: 20px 20px 20px 20px;
 }
 
 .name {
@@ -113,6 +107,32 @@ body {
   display: flex;
   justify-content: space-between;
   width: 400px;
+}
+
+.button-upload {
+  height: 48px;
+  font-size: 16px;
+  border: none;
+  padding: 0px 6px;
+  outline: none;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-upload input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.button-upload .icon {
+  display: inline-block;
+  padding: 8px 12px;
 }
 
 .message-input {

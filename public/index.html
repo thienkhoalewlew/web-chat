@@ -1,191 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Document</title>
-    <style>
-        body,
-        html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .frame-container {
-            display: flex;
-            height: 100%;
-        }
-
-        .frame-container iframe {
-            border: none;
-            height: 100%;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            width: 30%;
-            height: 30%;
-        }
-
-        .modal-config {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-            width: 30%;
-            height: 87%;
-        }
-
-        .modal-config-inside {
-            display: none;
-            position: fixed;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            height: 72%;
-        }
-    </style>
-    <script>
-        var profileIframe = null;
-        window.addEventListener('message', function (event) {
-            if (event.data === 'toggleProfile') {
-                var container = document.getElementById('iframe-container');
-                if (profileIframe) {
-                    container.removeChild(profileIframe);
-                    profileIframe = null;
-                } else {
-                    profileIframe = document.createElement('iframe');
-                    profileIframe.name = 'frprofile';
-                    profileIframe.src = 'profile.html';
-                    profileIframe.scrolling = 'no';
-                    profileIframe.style.width = '300px';
-                    container.appendChild(profileIframe);
-                }
-            }
-            if (event.data === 'blockUser') {
-                var modal = document.getElementById('myModalBlock');
-                var overlay = document.getElementById('overlay');
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-            }
-            if (event.data === 'tonUser') {
-                var modal = document.getElementById('myModalTon');
-                var overlay = document.getElementById('overlay');
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-            }
-            if (event.data === 'configUser') {
-                var modal = document.getElementById('myModelConfigUser');
-                var modal_inside = document.getElementById('myModelConfigUserInside');
-                var overlay = document.getElementById('overlay');
-                modal.style.display = 'block';
-                overlay.style.display = 'block';
-                modal_inside.style.display = 'block'
-            }
-        });
-        function closeModal(Model) {
-            var modal = document.getElementById(Model);
-            var overlay = document.getElementById('overlay');
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-        function openFileUploader(File) {
-            var fileInput = document.getElementById(File);
-            fileInput.click();
-        }
-    </script>
+    <title>HomePage</title>
+    <link rel="stylesheet" href="../css/index.css" />
 </head>
 
 <body>
-    <div class="frame-container" id="iframe-container">
-        <iframe name="frbar_1" src="bar_1.html" scrolling="no" style="width: 100px;"></iframe>
-        <iframe name="frbar_2" src="bar_2.html" scrolling="no" style="width: 340px;"></iframe>
-        <iframe name="frchat_area" src="chat_area.html" scrolling="no" style="flex-grow: 1"></iframe>
-    </div>
-    <div class="overlay" id="overlay"></div>
-    <div id="myModalBlock" class="modal">
-        <p class="title">Block this user?</p>
-        <p class="icon-adjust"><i class="fa-solid fa-user-slash"></i></p>
-        <p style="font-size: 12px;">After blocking you will not receive any messages from this user</p>
-        <div class="btn-adjust">
-            <button class="btn-cancel" onclick="closeModal('myModalBlock')">Cancel</button>
-            <button class="btn-confirm" onclick="closeModal('myModalBlock')">Block</button>
-        </div>
-    </div>
-    <div id="myModalTon" class="modal">
-        <p class="title">Turn off notifications this user?</p>
-        <p class="icon-adjust"><i class="fa-solid fa-bell-slash"></i></p>
-        <p style="font-size: 12px;">After turning off you will not receive any notifications from this user</p>
-        <div class="btn-adjust">
-            <button class="btn-cancel" onclick="closeModal('myModalTon')">Cancel</button>
-            <button class="btn-confirm" onclick="closeModal('myModalTon')">Turn Off</button>
-        </div>
-    </div>
-    <div id="myModelConfigUser" class="modal-config">
-        <div class="line-through"></div>
-        <div class="btn-container">
-            <button class="btn-user" id="change-avt" onclick="openFileUploader('file-upload')">
-                <img class="user-avatar-config" src="../Images/avatar.jpg" alt="Avatar">
-                <i class="fa-solid fa-camera" style="z-index: 2; margin-left: 15px; font-size: xx-large;"></i>
-            </button>
-            <input type="file" name="file-upload" id="file-upload" class="hidden" accept="image/jpeg, image/png">
-            <button class="btn-logout" name="btn-ton" id="btn-ton"><i class="fa-solid fa-right-from-bracket"></i>Log
-                Out</button>
-        </div>
-        <div id="myModelConfigUserInside" class="modal-config-inside">
-            <p class="lable-config">DISPLAY NAME</p>
-            <input type="text" id="displayname" class="textbox-config" value="Thiện Satan">
-            <p class="lable-config">LOCATION</p>
-            <input type="text" id="location" class="textbox-config" value="Hell">
-            <p class="lable-config">DESCRIPTION</p>
-            <input type="text" id="location" class="textbox-config">
-            <p class="lable-config">PHONE</p>
-            <input type="text" id="location" class="textbox-config">
-            <p class="lable-config">EMAIL</p>
-            <input type="text" id="location" class="textbox-config">
-            <p class="lable-config">DAY OF BIRTH</p>
-            <input type="text" id="location" class="textbox-config">
-            <div class="btn-adjust" style="margin-top: 28px;">
-                <button class="btn-cancel" onclick="closeModal('myModelConfigUser')">Cancel</button>
-                <button class="btn-confirm" onclick="closeModal('myModelConfigUser')">Save</button>
+    <div class="form-1">
+        <h1>Welcome to Ozele Chatroom</h1>
+        <form name="formName" action="" class="txt_contain">
+            <div class="txt_field">
+                <input type="text" name="username" class="center-placeholder" placeholder="Please enter your name here">
             </div>
-        </div>
+        </form>
     </div>
+    <div class="form-2">
+        <form name="formSelectChat" action="" class="txt_contain">
+            <div class="btn-contain">
+                <input type="button" name="friend" value="Friends" onclick="showFriendForm()">
+                <input type="button" name="group" value="Group" onclick="showGroupForm()">
+            </div>
+            <form></form>
+            <form name="formFriend" action="" class="txt_contain" style="display: none;">
+                <div class="txt_field">
+                    <input type="text" name="friendName" class="center-placeholder"
+                        placeholder="Enter the name of the person you want to chat with">
+                </div>
+                <input type="submit" name="submit" value="Confirm">
+            </form>
+            <form name="formGroup" class="txt_contain" style="display: none;">
+                <div class="txt_field">
+                    <input type="text" name="groupName" class="center-placeholder" placeholder="Group ID">
+                </div>
+                <input type="submit" name="submit" value="Confirm">
+                <input type="button" class="btn-newGroup" name="newGroup" value="Create a group"
+                    onclick="newGroupForm()">
+            </form>
+        </form>
+    </div>
+    <div class="form-3">
+        <form name="formNewGroup" action="" class="txt_contain" style="display: none;">
+            <div class="txt_field">
+                <p style="text-align: center;">Group ID:</p>
+                <div class="idGroupContain">
+                    <input type="text" name="idGroupCreate" style="margin-left: 25px;" class="center-placeholder" value="12345" readonly>
+                    <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+            <input type="submit" name="submit" value="Create">
+        </form>
+    </div>
+    <script src="../js/index.js"></script>
 </body>
 
 </html>
