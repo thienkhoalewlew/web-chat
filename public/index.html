@@ -13,47 +13,86 @@
         <h1>Welcome to Ozele Chatroom</h1>
         <form name="formName" action="" class="txt_contain">
             <div class="txt_field">
-                <input type="text" name="username" class="center-placeholder" placeholder="Please enter your name here">
+                <input type="text" id="username" class="center-placeholder" placeholder="Please enter your name here">
             </div>
         </form>
     </div>
     <div class="form-2">
         <form name="formSelectChat" action="" class="txt_contain">
+            
             <div class="btn-contain">
-                <input type="button" name="friend" value="Friends" onclick="showFriendForm()">
-                <input type="button" name="group" value="Group" onclick="showGroupForm()">
+                <input type="button" name="join-group" value="Join" onclick="showGroupForm()">
+                <input type="button" name="new-group" value="Create" onclick="showNewGroupForm()">
             </div>
+
             <form></form>
-            <form name="formFriend" action="" class="txt_contain" style="display: none;">
-                <div class="txt_field">
-                    <input type="text" name="friendName" class="center-placeholder"
-                        placeholder="Enter the name of the person you want to chat with">
-                </div>
-                <input type="submit" name="submit" value="Confirm">
-            </form>
+
             <form name="formGroup" class="txt_contain" style="display: none;">
+
                 <div class="txt_field">
                     <input type="text" name="groupName" class="center-placeholder" placeholder="Group ID">
                 </div>
+
                 <input type="submit" name="submit" value="Confirm">
-                <input type="button" class="btn-newGroup" name="newGroup" value="Create a group"
-                    onclick="newGroupForm()">
+            </form>
+
+            <form name="formNewGroup" action="" class="txt_contain" style="display: none;">
+                <div class="txt_field">
+                    <p style="text-align: center;">Group ID:</p>
+    
+                    <div class="idGroupContain">
+                        <input type="text" id="idGroupCreate" style="margin-left: 25px;" class="center-placeholder" value="12345" readonly>
+                        <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+    
+                <div class="detailGroup">
+                    <div class="totalClient">
+                        <p style="text-align: center;">Number Of Member: </p>
+                        <input type="text" class="totalClient" id="totalClient" placeholder="Enter the number of members of the Group" />
+                    </div>
+    
+                    <p style="text-align: center;">Group Type:</p>
+                    <div class="detailGroupContain">
+                        <label>
+                            <input type="radio" name="roomType" value="public">
+                            Public Room
+                        </label>
+                        <br>
+    
+                        <label>
+                            <input type="radio" name="roomType" value="private">
+                            Private Room
+                        </label>
+                        <br>
+    
+                        <div class="groupPass">
+                            <label for="password">
+                                Password: <input type="text" name="password" id="password">
+                            </label> 
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" name="submit" value="Create">
+                <script>
+                    const roomTypeRadios = document.querySelectorAll('input[name="roomType"]');
+    
+                    document.querySelector('.groupPass').style.display = 'none';
+
+                    roomTypeRadios.forEach(radio => {
+                        radio.addEventListener('change', function() {
+                        if (this.value === 'private') {
+                            document.querySelector('.groupPass').style.display = 'block';
+                        } else{
+                            document.querySelector('.groupPass').style.display = 'none';
+                        }
+                        });
+                    });
+                </script>
             </form>
         </form>
     </div>
-    <div class="form-3">
-        <form name="formNewGroup" action="" class="txt_contain" style="display: none;">
-            <div class="txt_field">
-                <p style="text-align: center;">Group ID:</p>
-                <div class="idGroupContain">
-                    <input type="text" name="idGroupCreate" style="margin-left: 25px;" class="center-placeholder" value="12345" readonly>
-                    <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
-                </div>
-            </div>
-            <input type="submit" name="submit" value="Create">
-        </form>
-    </div>
-    <script src="../js/index.js"></script>
+    <script src="./js/index.js"></script>
 </body>
 
-</html>
+</html

@@ -1,13 +1,25 @@
 const socket = io()
 
-const clientsTotal = document.getElementById('client-total')
+const clientsTotal = document.getElementById('client-total') //So nguoi da ket noi
+
+const urlParams = new URLSearchParams(window.location.search);
+const username = urlParams.get('username')
+const nameInput = document.getElementById('name-input')
+nameInput.textContent = username;
+
+const groupId = urlParams.get('groupId')
+socket.emit('join-group', groupId);
+
+const totalConnected = urlParams.get('totalClient')
+socket.emit('totalConnected', totalConnected); //So nguoi toi da cua group
+
+const password = urlParams.get('password')
 
 const messageContainer = document.getElementById('message-container')
-const nameInput = document.getElementById('name-input')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 
-const messageTone = new Audio('/message-tone.mp3')
+const messageTone = new Audio('../message-tone.mp3')
 
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -20,9 +32,9 @@ socket.on('clients-total', (data) => {
 
 function sendMessage() {
   if (messageInput.value === '') return
-  // console.log(messageInput.value)
   const data = {
-    name: nameInput.textContent,
+    groupId: groupId, 
+    name: username,
     message: messageInput.value,
     dateTime: new Date(),
   }
@@ -32,7 +44,6 @@ function sendMessage() {
 }
 
 socket.on('chat-message', (data) => {
-  // console.log(data)
   messageTone.play()
   addMessageToUI(false, data)
 })
@@ -88,3 +99,56 @@ function clearFeedback() {
     element.parentNode.removeChild(element)
   })
 }
+
+$(document).ready(function () {
+  var imageList = [];
+
+  $('.input-file').change(function () {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        imageList.push(e.target.result);
+        displayImages();
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  function displayImages() {
+    var imageListContainer = $('#image-list-container');
+    imageListContainer.empty();
+    imageList.forEach(function (imageSrc) {
+      var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
+      var deleteButton = $('<span>').addClass('delete-image');
+      var deleteIcon = $('<i>').addClass('fas fa-times'); 
+      deleteButton.click(function () {
+        deleteImage(imageSrc);
+        displayImages();
+      });
+      deleteButton.append(deleteIcon);
+      var imageItem = $('<div>').addClass('image-item').append(deleteButton).append(imgElement);
+      imageItem.css('display', 'inline-block');
+      imageListContainer.append(imageItem);
+    });
+    $('.image-label').toggle(imageList.length > 0);
+  }
+
+  $('#image-list-container').on('click', '.image-preview', function () {
+    var image = document.getElementById('fullscreen-image');
+    var fullscreenContainer = document.getElementById('fullscreen-container');
+    image.src = this.src;
+    fullscreenContainer.style.display = 'flex';
+  });
+
+  document.getElementById('close-fullscreen').addEventListener('click', function () {
+    var fullscreenContainer = document.getElementById('fullscreen-container');
+    fullscreenContainer.style.display = 'none';
+  });
+
+  function deleteImage(imageSrc) {
+    var index = imageList.indexOf(imageSrc);
+    if (index !== -1) {
+      imageList.splice(index, 1);
+    }
+  }
+});
