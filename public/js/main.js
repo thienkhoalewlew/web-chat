@@ -1,19 +1,10 @@
 const socket = io()
 
 const clientsTotal = document.getElementById('client-total') //So nguoi da ket noi
-
 const urlParams = new URLSearchParams(window.location.search);
-const username = urlParams.get('username')
+const username = urlParams.get('username');
 const nameInput = document.getElementById('name-input')
-nameInput.textContent = username;
-
-const groupId = urlParams.get('groupId')
-socket.emit('join-group', groupId);
-
-const totalConnected = urlParams.get('totalClient')
-socket.emit('totalConnected', totalConnected); //So nguoi toi da cua group
-
-const password = urlParams.get('password')
+  nameInput.textContent = username;
 
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
@@ -31,21 +22,27 @@ socket.on('clients-total', (data) => {
 })
 
 function sendMessage() {
-  if (messageInput.value === '') return
-  const data = {
-    groupId: groupId, 
-    name: username,
-    message: messageInput.value,
-    dateTime: new Date(),
+  if (groupIds.has(groupId) && groupIds[groupId].clientConnected.has(socket.id)) {
+    if (messageInput.value === '') return;
+    const data = {
+      groupId: groupId,
+      name: username,
+      message: messageInput.value,
+      dateTime: new Date(),
+    };
+    socket.emit('message', data);
+    addMessageToUI(true, data);
+    messageInput.value = '';
   }
-  socket.emit('message', data)
-  addMessageToUI(true, data)
-  messageInput.value = ''
 }
 
 socket.on('chat-message', (data) => {
-  messageTone.play()
-  addMessageToUI(false, data)
+  const { name, message, dateTime } = data;
+  if (groupIds.has(groupId) && groupIds[groupId].clientConnected.has(socket.id)) {
+    // Nếu có, hiển thị tin nhắn cho client này
+    messageTone.play()
+    addMessageToUI(name === username, data);
+  }
 })
 
 function addMessageToUI(isOwnMessage, data) {
@@ -99,7 +96,7 @@ function clearFeedback() {
     element.parentNode.removeChild(element)
   })
 }
-
+/*********************************************************************/
 $(document).ready(function () {
   var imageList = [];
 

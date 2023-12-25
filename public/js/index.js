@@ -24,24 +24,41 @@ function copyID() {
 
 /*******************************************************/
 
-document.forms['formNewGroup'].addEventListener('submit', function(event) {
+const socket = io()
+
+document.forms["formNewGroup"].addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const groupId = document.getElementById('idGroupCreate').value
-    const totalClient = document.getElementById('totalClient').value
-    const password = document.getElementById('password').value
-    //const publicRadio = formNewGroup.querySelector('input[value="public"]');
+    const username = document.getElementById("username").value;
+    const groupId = document.getElementById("idGroupCreate").value;
+    const totalClient = document.getElementById("totalClient").value;
+    const roomType = document.querySelector('input[name="roomType"]:checked').value;
+    let password = document.getElementById("password").value;
 
-    window.location.href = `../html/chat.html?username=${username}&groupId=${groupId}&totalClient=${totalClient}&password=${password}`;
+    if(roomType=='public') password='';
+    console.log(password)
+    socket.emit("newGroupSubmission", {
+        username,
+        groupId,
+        totalClient,
+        password
+    });
 });
 
-document.forms['formGroup'].addEventListener('submit', function(event) {
-    event.preventDefault();
+document.forms["formGroup"].addEventListener("submit", function(event) {
+    event.preventDefault(); 
 
-    const username = document.getElementById('username').value;
-    const groupId = document.getElementById('idGroupCreate').value
-    const password = document.getElementById('password').value
+    const username = document.getElementById("username").value;
+    const groupId = document.getElementsByName("groupName")[0].value;
+    const password = document.getElementById('password');
 
-    window.location.href = `../html/chat.html?username=${username}&groupId=${groupId}&&password=${password}`;
+    socket.emit("groupSubmission", {
+        username,
+        groupId,
+        password
+    });
 });
+
+socket.on("redirect", (url) => {
+    window.location.href = url;
+  });
