@@ -5,12 +5,14 @@ const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get('username');
 const nameInput = document.getElementById('name-input')
   nameInput.textContent = username;
+const groupId = urlParams.get('groupId');
+let groupIds = new Map();
 
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 
-const messageTone = new Audio('../message-tone.mp3')
+const messageTone = new Audio('../file/message-tone.mp3')
 
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -39,7 +41,6 @@ function sendMessage() {
 socket.on('chat-message', (data) => {
   const { name, message, dateTime } = data;
   if (groupIds.has(groupId) && groupIds[groupId].clientConnected.has(socket.id)) {
-    // Nếu có, hiển thị tin nhắn cho client này
     messageTone.play()
     addMessageToUI(name === username, data);
   }

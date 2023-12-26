@@ -10,70 +10,74 @@ const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
+let groupIds = new Map();
 
-let groupIds = new Set();
 io.on('connection', (socket) => {
-  console.log(socket.id,' connected');
+  console.log(socket.id, 'connected');
 
-  // Xử lý sự kiện từ formNewGroup và formGroup
   socket.on("newGroupSubmission", (data) => {
-    // Kiểm tra số lượng tham số nhận được từ form
-    if (Object.keys(data).length === 4) {
-      // Nhận 4 tham số từ formNewGroup
-      const { username, groupId, totalClient, password } = data;
+    const { username, groupId, totalClient, password } = data;
 
-      // Kiểm tra xem groupId đã tồn tại hay chưa
       if (!groupIds.has(groupId)) {
-        // Nếu groupId chưa tồn tại, thêm mới groupId vào danh sách
-        groupIds.add(groupId);
-        console.log(socket.id, 'added new group: ', groupId)
-        // Tạo các thuộc tính cho groupId
-        // Tạo một object để lưu trữ thông tin của groupId
-        const groupData = {
+        groupIds.set(groupId, {
           clientConnected: new Set(),
           maxLength: totalClient,
           password: password,
-        };
+        });
 
-        // Thêm groupId và thông tin tương ứng vào groupIds
-        groupIds[groupId] = groupData;
+        const groupData = groupIds.get(groupId);
+        console.log(socket.id, 'added new group: ', groupId)
+        groupData.clientConnected.add(socket.id);
 
-        // Thêm id của client vào group và kết nối client vào group đó
-        groupIds[groupId].clientConnected.add(socket.id);
+        const url = `../html/chat.html?username=${encodeURIComponent(username)}&groupId=${encodeURIComponent(groupId)}`;
+        socket.emit("redirect", url);
 
-        // Redirect đến chat.html và truyền username thông qua URL query parameter
-      const url = `../html/chat.html?username=${encodeURIComponent(username)}`;
-      socket.emit("redirect", url);
-
-        // Kết nối client vào group
         socket.join(groupId);
-      }
-    } else if (Object.keys(data).length === 3) {
-      // Nhận 3 tham số từ formGroup
-      const { username, groupId, password } = data;
-
-      // Kiểm tra xem groupId có tồn tại trong danh sách hay không
-      if (groupIds.has(groupId)) {
-        const groupData = groupIds[groupId];
-
-        // Kiểm tra xem số lượng clientConnected của group có nhỏ hơn maxLength hay không
-        if (groupData.clientConnected.size < groupData.maxLength) {
-          // Kiểm tra mật khẩu
-          if (groupData.password === password) {
-            // Kết nối client vào group
-            socket.join(groupId);
-
-            // Thêm id của client vào group
-            groupData.clientConnected.add(socket.id);
-
-            // Emit thông tin username của client để mở file chat.html
-            socket.emit("open-chat", { username });
-          }
+        io.emit('clients-total', groupData.size)
+        if(groupData.size !=0){
+          console.log(`Clients in group ${groupId}: ${Array.from(groupData.clientConnected)}`);
+        } else {
+          console.log("Erro Add")
         }
+      } else {
+        console.log('ID group already exists');
       }
+    });
+  socket.on('groupSubmission', (data) => {
+    const { username, groupId, password } = data;
+    
+    if (groupIds.has(groupId)) {
+      const groupData = groupIds.get(groupId);
+      if (groupData.clientConnected.size < groupData.maxLength && groupData.password === password) {
+        const url = `../html/chat.html?username=${encodeURIComponent(username)}&groupId=${encodeURIComponent(groupId)}`;
+        socket.emit("redirect", url);
+
+        socket.join(groupId);
+
+        io.emit('clients-total', groupData.size)
+      }
+    } else{
+      console.log('ID group does not exist');
     }
-    socket.on("feedback", (data) => {
-      socket.broadcast.emit("feedback", data);
+  })
+  socket.on('disconnect', () => {
+    console.log(socket.id,'disconnected');
+
+    groupIds.forEach((groupData) => {
+      if (groupData.clientConnected.has(socket.id)) {
+        groupData.clientConnected.delete(socket.id);
+      
+      }
     });
   });
-})
+
+  socket.on('message', (data) => {
+    const { groupId, name, message, dateTime } = data;
+  
+    io.to(groupId).emit('chat-message', { name, message, dateTime });
+  });
+
+  socket.on("feedback", (data) => {
+    socket.broadcast.emit("feedback", data);
+  });
+});

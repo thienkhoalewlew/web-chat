@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <title>HomePage</title>
-    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="css/index.css" />
 </head>
 
 <body>
@@ -27,53 +27,58 @@
 
             <form></form>
 
-            <form name="formGroup" class="txt_contain" style="display: none;">
+            <form name="formGroup" action="" class="txt_contain" style="display: none;">
 
                 <div class="txt_field">
-                    <input type="text" name="groupName" class="center-placeholder" placeholder="Group ID">
-                    <input type="text" name="password" id="password" class="center-placeholder" placeholder="Password">
+                    <input type="text" name="groupId" id="IdGroup" class="center-placeholder" placeholder="Please enter group ID here">
+                    <input type="text" name="passwordJoin" id="passwordJoin" class="center-placeholder" placeholder="Password">
                 </div>
-            
-                <input type="submit" name="submit" value="Confirm">
+
+                <input type="submit" name="submit" id="submit" value="Confirm">
             </form>
 
             <form name="formNewGroup" action="" class="txt_contain" style="display: none;">
-                <div class="txt_field">
-                    <p style="text-align: center;">Group ID:</p>
+            
     
                     <div class="idGroupContain">
+                        <p>Group ID:</p>
                         <input type="text" id="idGroupCreate" style="margin-left: 25px;" class="center-placeholder" value="12345" readonly>
                         <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
                     </div>
-                </div>
+                
     
                 <div class="detailGroup">
+                    
                     <div class="totalClient">
-                        <p style="text-align: center;">Number Of Member: </p>
-                        <input type="text" class="totalClient" id="totalClient" placeholder="Enter the number of members of the Group" />
+                        <p>Number Of Member:</p>
+                        <input type="text" class="totalClient" id="totalClient" placeholder="(cannot be empty)" />
                     </div>
     
-                    <p style="text-align: center;">Group Type:</p>
+                    
                     <div class="detailGroupContain">
-                        <label>
-                            <input type="radio" name="roomType" value="public">
-                            Public Room
-                        </label>
-                        <br>
+                        <p>Group Type:</p>
+                        <div>
+                            <label>
+                                <input type="radio" name="roomType" value="public">
+                                Public Room
+                            </label>
+                            <br>
     
-                        <label>
+                            <label>
                             <input type="radio" name="roomType" value="private">
                             Private Room
-                        </label>
-                        <br>
+                            </label>
+                            <br>
     
-                        <div class="groupPass">
-                            <label for="password">
-                                Password: <input type="text" name="password" id="password">
-                            </label> 
+                            <div class="groupPass">
+                                <label for="password">
+                                Password: <input type="text" name="password" id="password" placeholder="(cannot be empty)">
+                                </label> 
                         </div>
                     </div>
+                    </div>
                 </div>
+                <br>
                 <input type="submit" name="submit" value="Create">
                 <script>
                     const roomTypeRadios = document.querySelectorAll('input[name="roomType"]');
@@ -94,11 +99,11 @@
         </form>
     </div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
     integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
     crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./js/index.js"></script>
 </body>
 
-</html
+</html>

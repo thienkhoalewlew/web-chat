@@ -36,7 +36,7 @@ document.forms["formNewGroup"].addEventListener("submit", function(event) {
     let password = document.getElementById("password").value;
 
     if(roomType=='public') password='';
-    console.log(password)
+    
     socket.emit("newGroupSubmission", {
         username,
         groupId,
@@ -49,8 +49,8 @@ document.forms["formGroup"].addEventListener("submit", function(event) {
     event.preventDefault(); 
 
     const username = document.getElementById("username").value;
-    const groupId = document.getElementsByName("groupName")[0].value;
-    const password = document.getElementById('password');
+    const groupId = document.getElementById("IdGroup").value;
+    const password = document.getElementById('passwordJoin');
 
     socket.emit("groupSubmission", {
         username,
