@@ -33,6 +33,7 @@ socket.on('newJoin', (notifi) => {
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
   sendMessage()
+  sendImage()
 })
 
 function sendMessage() {
@@ -68,19 +69,38 @@ function addMessageToUI(isOwnMessage, data) {
   scrollToBottom()
 }
 
+socket.on('newImage', (imageList) => {
+  messageTone.play()
+  addImageToUI(false, imageList);
+});
+
+function addImageToUI(isOwnMessage, imageBase64List) {
+  imageBase64List.forEach(function (imageBase64) {
+    const element = `
+      <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
+        <p class="message-image">
+          <img src="${imageBase64}" class="message-image" id="message-image">
+        </p>
+      </li>
+    `;
+    messageContainer.innerHTML += element;
+  });
+  scrollToBottom();
+}
+
 function scrollToBottom() {
   messageContainer.scrollTo(0, messageContainer.scrollHeight)
 }
 
 messageInput.addEventListener('focus', (e) => {
     socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
+      feedback: `✍️ ${username} is typing a message`,
     })
   })
   
   messageInput.addEventListener('keypress', (e) => {
     socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
+      feedback: `✍️ ${username} is typing a message`,
     })
   })
   messageInput.addEventListener('blur', (e) => {
@@ -105,55 +125,65 @@ messageInput.addEventListener('focus', (e) => {
     })
   }
 /*********************************************************************/
-$(document).ready(function () {
-  var imageList = [];
+let imageList = [];
 
   $('.input-file').change(function () {
-    if (this.files && this.files[0]) {
-      var reader = new FileReader();
+    if (this.files?.[0]) {
+      let reader = new FileReader();
       reader.onload = function (e) {
-        imageList.push(e.target.result);
+        let imageBase64 = e.target.result;
+        imageList.push(imageBase64);
         displayImages();
       };
+      
       reader.readAsDataURL(this.files[0]);
     }
   });
 
   function displayImages() {
-    var imageListContainer = $('#image-list-container');
+    let imageListContainer = $('#image-list-container');
     imageListContainer.empty();
     imageList.forEach(function (imageSrc) {
-      var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
-      var deleteButton = $('<span>').addClass('delete-image');
-      var deleteIcon = $('<i>').addClass('fas fa-times'); 
+      let imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
+      let deleteButton = $('<span>').addClass('delete-image');
+      let deleteIcon = $('<i>').addClass('fas fa-times'); 
       deleteButton.click(function () {
         deleteImage(imageSrc);
         displayImages();
       });
       deleteButton.append(deleteIcon);
-      var imageItem = $('<div>').addClass('image-item').append(deleteButton).append(imgElement);
+      let imageItem = $('<div>').addClass('image-item').append(deleteButton).append(imgElement);
       imageItem.css('display', 'inline-block');
       imageListContainer.append(imageItem);
     });
     $('.image-label').toggle(imageList.length > 0);
   }
 
+  function sendImage(){
+    if (imageList.length > 0) {
+      socket.emit('dataImage', ({groupId, imageList}));
+      addImageToUI(true, imageList)
+      $('#image-list-container').empty();
+      imageList = [];
+    $('#image-list-container').empty();
+    }
+  }
+
   $('#image-list-container').on('click', '.image-preview', function () {
-    var image = document.getElementById('fullscreen-image');
-    var fullscreenContainer = document.getElementById('fullscreen-container');
+    let image = document.getElementById('fullscreen-image');
+    let fullscreenContainer = document.getElementById('fullscreen-container');
     image.src = this.src;
     fullscreenContainer.style.display = 'flex';
   });
 
   document.getElementById('close-fullscreen').addEventListener('click', function () {
-    var fullscreenContainer = document.getElementById('fullscreen-container');
+    let fullscreenContainer = document.getElementById('fullscreen-container');
     fullscreenContainer.style.display = 'none';
   });
 
   function deleteImage(imageSrc) {
-    var index = imageList.indexOf(imageSrc);
+    let index = imageList.indexOf(imageSrc);
     if (index !== -1) {
       imageList.splice(index, 1);
     }
   }
-});

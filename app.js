@@ -63,6 +63,11 @@ io.on('connection', (socket) => {
     socket.to(groupId).emit('chat-message', { name, message, dateTime });
   });
 
+  socket.on('dataImage', (data) => {
+      const { groupId, imageList } = data;
+      socket.to(groupId).emit('newImage', imageList);
+  });
+
   socket.on('disconnect', () => {
     console.log(socket.id, 'disconnected');
 

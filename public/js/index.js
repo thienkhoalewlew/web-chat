@@ -1,25 +1,29 @@
 function showGroupForm() {
-    var groupForm = document.forms["formGroup"];
-    var newGroupForm = document.forms["formNewGroup"];
+    let groupForm = document.forms["formGroup"];
+    let newGroupForm = document.forms["formNewGroup"];
 
     groupForm.style.display = "block";
     newGroupForm.style.display = "none";
 }
 
 function showNewGroupForm() {
-    var groupForm = document.forms["formGroup"];
-    var newGroupForm = document.forms["formNewGroup"];
+    let groupForm = document.forms["formGroup"];
+    let newGroupForm = document.forms["formNewGroup"];
 
     groupForm.style.display = "none";
     newGroupForm.style.display = "block";
 }
 
 function copyID() {
-    var textBox = document.getElementsByName("idGroupCreate")[0];
+    let textBox = document.getElementsByName("idGroupCreate")[0];
     textBox.select();
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();
-    alert("Copy ID successfully!");
+    navigator.clipboard.writeText(textBox.value)
+        .then(() => {
+            alert("Copy ID successfully!");
+        })
+        .catch(err => {
+            console.error('Unable to copy:', err);
+        });
 }
 
 /*******************************************************/
