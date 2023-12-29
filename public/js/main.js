@@ -1,12 +1,11 @@
 const socket = io()
 
-const clientsTotal = document.getElementById('client-total') //So nguoi da ket noi
+const clientsTotal = document.getElementById('client-total') 
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get('username');
 const nameInput = document.getElementById('name-input')
   nameInput.textContent = username;
 const groupId = urlParams.get('groupId');
-let groupIds = new Map();
 
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
@@ -24,10 +23,8 @@ socket.on('clients-total', (data) => {
 })
 
 function sendMessage() {
-  if (groupIds.has(groupId) && groupIds[groupId].clientConnected.has(socket.id)) {
     if (messageInput.value === '') return;
     const data = {
-      groupId: groupId,
       name: username,
       message: messageInput.value,
       dateTime: new Date(),
@@ -35,15 +32,12 @@ function sendMessage() {
     socket.emit('message', data);
     addMessageToUI(true, data);
     messageInput.value = '';
-  }
 }
 
 socket.on('chat-message', (data) => {
-  const { name, message, dateTime } = data;
-  if (groupIds.has(groupId) && groupIds[groupId].clientConnected.has(socket.id)) {
+  
     messageTone.play()
-    addMessageToUI(name === username, data);
-  }
+    addMessageToUI(false, data);
 })
 
 function addMessageToUI(isOwnMessage, data) {

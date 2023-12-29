@@ -31,50 +31,27 @@ io.on('connection', (socket) => {
   })
   
   socket.on('joinRoom', (data) => {
-    // const { groupId, password } = data
+    const { groupId, password } = data
 
-    // if(rooms[groupId]){
-    //   if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
-    //     socket.join(groupId);
-    //     console.log('A client joined room: ',groupId)
-    //     socket.emit('joinedRoom', groupId);
-    //   }else{
-    //     if(rooms[groupId].password != password){
-    //       socket.emit('passDoesNotCorrect','Khong nhan pass')
-    //     }
-    //     if(rooms[groupId].connectedClients > rooms[groupId].totalClient){
-    //       socket.emit('passDoesNotCorrect','full')
-    //     }
-    //   }
-    // }else{
-      
-    //   socket.emit('roomDoesNotExist','Khong tim thay phong')
-    // }
-    const { groupId, password } = data;
-
-    console.log('Received request to join room: ', groupId);
-
-    if (rooms[groupId]) {
-      console.log('Room exists: ', groupId);
-      if (rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient) {
+    if(rooms[groupId]){
+      if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
         socket.join(groupId);
         rooms[groupId].connectedClients++
-        console.log('A client joined room: ', groupId);
+        console.log('A client joined room ',groupId,': ', socket.id)
         socket.emit('joinedRoom', groupId);
-      } else {
-        if (rooms[groupId].password != password) {
-          console.log('Password does not match for room: ', groupId);
-          socket.emit('passDoesNotCorrect', 'Khong nhan pass');
+      }else{
+        if(rooms[groupId].password != password){
+          socket.emit('passDoesNotCorrect','Khong nhan pass')
         }
-        if (rooms[groupId].connectedClients >= rooms[groupId].totalClient) {
-          console.log('Room is full: ', groupId);
-          socket.emit('passDoesNotCorrect', 'full');
+        if(rooms[groupId].connectedClients >= rooms[groupId].totalClient){
+          socket.emit('passDoesNotCorrect','full')
         }
       }
-    } else {
-      console.log('Room does not exist: ', groupId);
-      socket.emit('roomDoesNotExist', 'Khong tim thay phong');
+    }else{
+      socket.emit('roomDoesNotExist','Khong tim thay phong')
     }
+    socket.emit('joinedRoom', { url: 'http://localhost:4000/chat.html' });
+    
   })
 
   socket.on('message', (data) => {
@@ -84,15 +61,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log(socket.id,'disconnected');
+    console.log(socket.id, 'disconnected');
 
     const rooms = Object.keys(socket.rooms);
-
+  
     rooms.forEach(roomId => {
-      if (roomId !== socket.id) {
+      if (roomId !== socket.id && rooms[roomId]) {
+        socket.leave(roomId);
         console.log(`Client left room: ${roomId}`);
-    }
-  });
+        rooms[roomId].connectedClients--;
+      }
+    });
   });
 
   socket.on("feedback", (data) => {

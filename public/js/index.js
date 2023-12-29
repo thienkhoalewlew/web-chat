@@ -60,6 +60,15 @@ document.forms["formGroup"].addEventListener('submit', function(event) {
     socket.emit('joinRoom', ({groupId, password}))
 });
 
+socket.on('joinedRoom', (data) => {
+  const { url } = data;
 
+  if (url) {
+    console.log('Redirecting to:', url);
+    window.location.href = url;
+  } else {
+    console.log('Could not access the URL.');
+  }
+});
 
 
