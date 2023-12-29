@@ -11,8 +11,8 @@ const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const rooms = {};
-
+const rooms = {}; 
+checkAndRemoveEmptyRooms();
 io.on('connection', (socket) => {
   console.log(socket.id, 'connected');
 
@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
   })
   
   socket.on('joinRoom', (data) => {
-    const { username, groupId, password } = data
+    const { groupId, password } = data
 
     if(rooms[groupId]){
       if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
@@ -60,24 +60,36 @@ io.on('connection', (socket) => {
   socket.on('message', (data) => {
     const { groupId, name, message, dateTime } = data;
   
-    io.to(groupId).emit('chat-message', { name, message, dateTime });
+    socket.to(groupId).emit('chat-message', { name, message, dateTime });
   });
 
   socket.on('disconnect', () => {
     console.log(socket.id, 'disconnected');
 
-    const rooms = Object.keys(socket.rooms);
-  
-    rooms.forEach(roomId => {
-      if (roomId !== socket.id && rooms[roomId]) {
-        socket.leave(roomId);
-        console.log(`Client left room: ${roomId}`);
-        rooms[roomId].connectedClients--;
-      }
-    });
+    // socket.leave(groupId);
+    // rooms[groupId].connectedClients--;
+    //   if (rooms[groupId].connectedClients == 0) {
+    //     delete rooms[groupId];
+    //     console.log(`Room ${groupId} has been removed.`);
+    //   }
   });
 
-  // socket.on("feedback", (data) => {
-  //   socket.to(groupId).broadcast.emit("feedback", data);
-  // });
+  
+
+  socket.on('feedback', (data) => {
+    socket.broadcast.emit('feedback', data)
+  })
 });
+
+function checkAndRemoveEmptyRooms() {
+  setInterval(() => {
+    const roomKeys = Object.keys(rooms);
+    roomKeys.forEach((roomId) => {
+      const room = rooms[roomId];
+      if (room.connectedClients === 0) {
+        delete rooms[roomId];
+        console.log(`Room ${roomId} has been removed due to inactivity.`);
+      }
+    });
+  }, 30000); //Kiểm tra mỗi 30p
+}

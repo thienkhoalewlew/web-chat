@@ -64,5 +64,3 @@ document.forms["formGroup"].addEventListener('submit', function(event) {
 
     window.location.href =`http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`
 });
-
-
