@@ -26,39 +26,40 @@ function copyID() {
 
 const socket = io()
 
-document.forms["formNewGroup"].addEventListener("submit", function(event) {
+document.forms["formNewGroup"].addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const username = document.getElementById("username").value;
     const groupId = document.getElementById("idGroupCreate").value;
     const totalClient = document.getElementById("totalClient").value;
     const roomType = document.querySelector('input[name="roomType"]:checked').value;
     let password = document.getElementById("password").value;
 
-    if(roomType=='public') password='';
+    if (roomType == 'public') {
+        password = '';
+    }
     
-    socket.emit("newGroupSubmission", {
-        username,
-        groupId,
-        totalClient,
-        password
+     socket.emit('createRoom', ({groupId, totalClient, password}))
+
+     socket.emit('joinRoom', ({groupId, password}))
+
+     socket.on('passDoesNotCorrect', (message) => {
+      console.log('Lỗi: ' + message);
+    });
+  
+    socket.on('roomDoesNotExist', (message) => {
+      console.log('Lỗi: ' + message); 
     });
 });
 
-document.forms["formGroup"].addEventListener("submit", function(event) {
+document.forms["formGroup"].addEventListener('submit', function(event) {
     event.preventDefault(); 
 
-    const username = document.getElementById("username").value;
     const groupId = document.getElementById("IdGroup").value;
-    const password = document.getElementById('passwordJoin');
+    const password = document.getElementById('passwordJoin').value;
 
-    socket.emit("groupSubmission", {
-        username,
-        groupId,
-        password
-    });
+    socket.emit('joinRoom', ({groupId, password}))
 });
 
-socket.on("redirect", (url) => {
-    window.location.href = url;
-  });
+
+
+

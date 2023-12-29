@@ -4,77 +4,95 @@ const socketIo = require('socket.io');
 
 const path = require("path");
 const app = express();
+
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => console.log(`💬 server on port ${PORT}`));
 const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-let groupIds = new Map();
+const rooms = {};
 
 io.on('connection', (socket) => {
   console.log(socket.id, 'connected');
 
-  socket.on("newGroupSubmission", (data) => {
-    const { username, groupId, totalClient, password } = data;
-
-      if (!groupIds.has(groupId)) {
-        groupIds.set(groupId, {
-          clientConnected: new Set(),
-          maxLength: totalClient,
-          password: password,
-        });
-
-        const groupData = groupIds.get(groupId);
-        console.log(socket.id, 'added new group: ', groupId)
-        groupData.clientConnected.add(socket.id);
-
-        const url = `../html/chat.html?username=${encodeURIComponent(username)}&groupId=${encodeURIComponent(groupId)}`;
-        socket.emit("redirect", url);
-
-        socket.join(groupId);
-        io.emit('clients-total', groupData.size)
-        if(groupData.size !=0){
-          console.log(`Clients in group ${groupId}: ${Array.from(groupData.clientConnected)}`);
-        } else {
-          console.log("Erro Add")
-        }
-      } else {
-        console.log('ID group already exists');
+  socket.on('createRoom', (data) =>{
+    const {groupId, totalClient, password} = data;
+    if(!rooms[groupId]){
+      rooms[groupId] = {
+        connectedClients: 0,
+        totalClient: totalClient,
+        password: password
       }
-    });
-  socket.on('groupSubmission', (data) => {
-    const { username, groupId, password } = data;
-    
-    if (groupIds.has(groupId)) {
-      const groupData = groupIds.get(groupId);
-      if (groupData.clientConnected.size < groupData.maxLength && groupData.password === password) {
-        const url = `../html/chat.html?username=${encodeURIComponent(username)}&groupId=${encodeURIComponent(groupId)}`;
-        socket.emit("redirect", url);
-
-        socket.join(groupId);
-
-        io.emit('clients-total', groupData.size)
-      }
-    } else{
-      console.log('ID group does not exist');
+      console.log('Added a new room id: ', groupId, 'Max Client: ', totalClient)
+    }else{
+      socket.emit('roomExisted','Chưa xử lý')
     }
   })
-  socket.on('disconnect', () => {
-    console.log(socket.id,'disconnected');
+  
+  socket.on('joinRoom', (data) => {
+    // const { groupId, password } = data
 
-    groupIds.forEach((groupData) => {
-      if (groupData.clientConnected.has(socket.id)) {
-        groupData.clientConnected.delete(socket.id);
+    // if(rooms[groupId]){
+    //   if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
+    //     socket.join(groupId);
+    //     console.log('A client joined room: ',groupId)
+    //     socket.emit('joinedRoom', groupId);
+    //   }else{
+    //     if(rooms[groupId].password != password){
+    //       socket.emit('passDoesNotCorrect','Khong nhan pass')
+    //     }
+    //     if(rooms[groupId].connectedClients > rooms[groupId].totalClient){
+    //       socket.emit('passDoesNotCorrect','full')
+    //     }
+    //   }
+    // }else{
       
+    //   socket.emit('roomDoesNotExist','Khong tim thay phong')
+    // }
+    const { groupId, password } = data;
+
+    console.log('Received request to join room: ', groupId);
+
+    if (rooms[groupId]) {
+      console.log('Room exists: ', groupId);
+      if (rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient) {
+        socket.join(groupId);
+        rooms[groupId].connectedClients++
+        console.log('A client joined room: ', groupId);
+        socket.emit('joinedRoom', groupId);
+      } else {
+        if (rooms[groupId].password != password) {
+          console.log('Password does not match for room: ', groupId);
+          socket.emit('passDoesNotCorrect', 'Khong nhan pass');
+        }
+        if (rooms[groupId].connectedClients >= rooms[groupId].totalClient) {
+          console.log('Room is full: ', groupId);
+          socket.emit('passDoesNotCorrect', 'full');
+        }
       }
-    });
-  });
+    } else {
+      console.log('Room does not exist: ', groupId);
+      socket.emit('roomDoesNotExist', 'Khong tim thay phong');
+    }
+  })
 
   socket.on('message', (data) => {
     const { groupId, name, message, dateTime } = data;
   
     io.to(groupId).emit('chat-message', { name, message, dateTime });
+  });
+
+  socket.on('disconnect', () => {
+    console.log(socket.id,'disconnected');
+
+    const rooms = Object.keys(socket.rooms);
+
+    rooms.forEach(roomId => {
+      if (roomId !== socket.id) {
+        console.log(`Client left room: ${roomId}`);
+    }
+  });
   });
 
   socket.on("feedback", (data) => {
