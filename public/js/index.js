@@ -25,10 +25,13 @@ function copyID() {
 /*******************************************************/
 
 const socket = io()
+const usernameInput = document.getElementById('username')
 
 document.forms["formNewGroup"].addEventListener('submit', function(event) {
     event.preventDefault();
 
+    const username = usernameInput.value
+    console.log(username)
     const groupId = document.getElementById("idGroupCreate").value;
     const totalClient = document.getElementById("totalClient").value;
     const roomType = document.querySelector('input[name="roomType"]:checked').value;
@@ -40,7 +43,7 @@ document.forms["formNewGroup"].addEventListener('submit', function(event) {
     
      socket.emit('createRoom', ({groupId, totalClient, password}))
 
-     socket.emit('joinRoom', ({groupId, password}))
+     window.location.href =`http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`
 
      socket.on('passDoesNotCorrect', (message) => {
       console.log('Lỗi: ' + message);
@@ -54,21 +57,12 @@ document.forms["formNewGroup"].addEventListener('submit', function(event) {
 document.forms["formGroup"].addEventListener('submit', function(event) {
     event.preventDefault(); 
 
+    const username = usernameInput.value
+    console.log(username)
     const groupId = document.getElementById("IdGroup").value;
     const password = document.getElementById('passwordJoin').value;
 
-    socket.emit('joinRoom', ({groupId, password}))
-});
-
-socket.on('joinedRoom', (data) => {
-  const { url } = data;
-
-  if (url) {
-    console.log('Redirecting to:', url);
-    window.location.href = url;
-  } else {
-    console.log('Could not access the URL.');
-  }
+    window.location.href =`http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`
 });
 
 

@@ -31,14 +31,14 @@ io.on('connection', (socket) => {
   })
   
   socket.on('joinRoom', (data) => {
-    const { groupId, password } = data
+    const { username, groupId, password } = data
 
     if(rooms[groupId]){
       if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
         socket.join(groupId);
         rooms[groupId].connectedClients++
         console.log('A client joined room ',groupId,': ', socket.id)
-        socket.emit('joinedRoom', groupId);
+        socket.emit('joinedRoom')
       }else{
         if(rooms[groupId].password != password){
           socket.emit('passDoesNotCorrect','Khong nhan pass')
@@ -50,8 +50,11 @@ io.on('connection', (socket) => {
     }else{
       socket.emit('roomDoesNotExist','Khong tim thay phong')
     }
-    socket.emit('joinedRoom', { url: 'http://localhost:4000/chat.html' });
-    
+  })
+  
+  socket.on('newJoin',(data) => {
+    const {groupId, notifi} = data  
+    socket.to(groupId).emit('newJoin', notifi);
   })
 
   socket.on('message', (data) => {
@@ -74,7 +77,7 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on("feedback", (data) => {
-    socket.broadcast.emit("feedback", data);
-  });
+  // socket.on("feedback", (data) => {
+  //   socket.to(groupId).broadcast.emit("feedback", data);
+  // });
 });

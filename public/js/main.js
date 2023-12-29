@@ -1,11 +1,9 @@
 const socket = io()
 
-const clientsTotal = document.getElementById('client-total') 
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get('username');
-const nameInput = document.getElementById('name-input')
-  nameInput.textContent = username;
 const groupId = urlParams.get('groupId');
+const password = urlParams.get('password')
 
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
@@ -13,13 +11,28 @@ const messageInput = document.getElementById('message-input')
 
 const messageTone = new Audio('../file/message-tone.mp3')
 
+function chatOnLoad(){
+    const nameInput = document.getElementById('name-input')
+    nameInput.textContent = username;
+    socket.emit('joinRoom', ({username,groupId, password}))
+}
+
+socket.on('joinedRoom',function() {
+    const notifi = `${username} joined Room`
+    socket.emit('newJoin', ({groupId,notifi}))
+})
+
+socket.on('newJoin', (notifi) => {
+    const element = `
+        <li class="message-feedback">
+          <p class="feedback" id="feedback">${notifi}</p>
+        </li>
+        `
+    messageContainer.innerHTML += element
+})
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
   sendMessage()
-})
-
-socket.on('clients-total', (data) => {
-  clientsTotal.innerText = `Total Clients: ${data}`
 })
 
 function sendMessage() {
@@ -29,13 +42,12 @@ function sendMessage() {
       message: messageInput.value,
       dateTime: new Date(),
     };
-    socket.emit('message', data);
+    socket.to(groupId).emit('message', data);
     addMessageToUI(true, data);
     messageInput.value = '';
 }
 
 socket.on('chat-message', (data) => {
-  
     messageTone.play()
     addMessageToUI(false, data);
 })
@@ -61,13 +73,13 @@ function scrollToBottom() {
 
 messageInput.addEventListener('focus', (e) => {
   socket.emit('feedback', {
-    feedback: `✍️ ${nameInput.textContent} is typing a message`,
+    feedback: `✍️ ${username} is typing a message`,
   })
 })
 
 messageInput.addEventListener('keypress', (e) => {
   socket.emit('feedback', {
-    feedback: `✍️ ${nameInput.textContent} is typing a message`,
+    feedback: `✍️ ${username} is typing a message`,
   })
 })
 messageInput.addEventListener('blur', (e) => {

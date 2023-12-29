@@ -11,7 +11,7 @@
   <title>Chat Web</title>
 </head>
 
-<body>
+<body onload="chatOnLoad()">
   <h1 class="title">LetChat 💬</h1>
   <div class="main">
     <div class="name">
@@ -71,7 +71,6 @@
       </button>
     </form>
   </div>
-  <h3 class="clients-total" id="client-total">Total clients: 2</h3>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
     integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
