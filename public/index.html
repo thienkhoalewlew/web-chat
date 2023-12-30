@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/index.css" />
 </head>
 
-<body >
+<body>
     <div class="form-1">
         <h1>Welcome to Ozele Chatroom</h1>
         <form name="formName" action="" class="txt_contain">
@@ -19,7 +19,7 @@
     </div>
     <div class="form-2">
         <form name="formSelectChat" action="" class="txt_contain">
-            
+
             <div class="btn-contain">
                 <input type="button" name="join-group" value="Join" onclick="showGroupForm()">
                 <input type="button" name="new-group" value="Create" onclick="showNewGroupForm()">
@@ -30,31 +30,34 @@
             <form name="formGroup" action="" class="txt_contain" style="display: none;">
 
                 <div class="txt_field">
-                    <input type="text" name="groupId" id="IdGroup" class="center-placeholder" placeholder="Please enter group ID here">
-                    <input type="text" name="passwordJoin" id="passwordJoin" class="center-placeholder" placeholder="Password">
+                    <input type="text" name="groupId" id="IdGroup" class="center-placeholder"
+                        placeholder="Please enter group ID here">
+                    <input type="text" name="passwordJoin" id="passwordJoin" class="center-placeholder"
+                        placeholder="Password">
                 </div>
 
                 <input type="submit" name="submit" id="submit" value="Confirm">
             </form>
 
             <form name="formNewGroup" action="" class="txt_contain" style="display: none;">
-            
-    
-                    <div class="idGroupContain">
-                        <p>Group ID:</p>
-                        <input type="text" id="idGroupCreate" style="margin-left: 25px;" class="center-placeholder" value="12345" readonly>
-                        <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
-                    </div>
-                
-    
+
+
+                <div class="idGroupContain">
+                    <p>Group ID:</p>
+                    <input type="text" id="idGroupCreate" style="margin-left: 25px;" class="center-placeholder"
+                        value="12345" readonly>
+                    <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
+                </div>
+
+
                 <div class="detailGroup">
-                    
+
                     <div class="totalClient">
                         <p>Number Of Member:</p>
                         <input type="text" class="totalClient" id="totalClient" placeholder="(cannot be empty)" />
                     </div>
-    
-                    
+
+
                     <div class="detailGroupContain">
                         <p>Group Type:</p>
                         <div>
@@ -63,46 +66,54 @@
                                 Public Room
                             </label>
                             <br>
-    
+
                             <label>
-                            <input type="radio" name="roomType" value="private">
-                            Private Room
+                                <input type="radio" name="roomType" value="private">
+                                Private Room
                             </label>
                             <br>
-    
+
                             <div class="groupPass">
                                 <label for="password">
-                                Password: <input type="text" name="password" id="password" placeholder="(cannot be empty)">
-                                </label> 
+                                    Password: <input type="text" name="password" id="password"
+                                        placeholder="(cannot be empty)">
+                                </label>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <br>
                 <input type="submit" name="submit" value="Create">
                 <script>
                     const roomTypeRadios = document.querySelectorAll('input[name="roomType"]');
-    
+
                     document.querySelector('.groupPass').style.display = 'none';
 
                     roomTypeRadios.forEach(radio => {
-                        radio.addEventListener('change', function() {
-                        if (this.value === 'private') {
-                            document.querySelector('.groupPass').style.display = 'block';
-                        } else{
-                            document.querySelector('.groupPass').style.display = 'none';
-                        }
+                        radio.addEventListener('change', function () {
+                            if (this.value === 'private') {
+                                document.querySelector('.groupPass').style.display = 'block';
+                            } else {
+                                document.querySelector('.groupPass').style.display = 'none';
+                            }
                         });
                     });
                 </script>
             </form>
         </form>
     </div>
+    <div class="error-container" id="errorContainer">
+        <div class="error">
+            <button class="close-button" onclick="closeErrorContainer()"><i class="fa-solid fa-x"></i></button>
+            <div class="error-icon"><i class="fa-regular fa-circle-xmark"></i></div>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
-    integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
+        integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="./js/index.js"></script>
 </body>
 
