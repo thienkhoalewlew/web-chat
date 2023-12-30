@@ -221,6 +221,11 @@ input[type="submit"]:hover {
   color: #fff;
 }
 
+.idGroupContain button:hover {
+  background-color: transparent;
+  color: #f0f0f0;
+}
+
 .totalClient {
   display: flex;
   align-items: center;

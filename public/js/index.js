@@ -19,7 +19,6 @@ function copyID() {
     textBox.select();
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
-    alert("Copy ID successfully!");
 }
 function closeErrorContainer() {
     const errorContainer = document.getElementById('errorContainer');
