@@ -25,8 +25,9 @@ io.on('connection', (socket) => {
         password: password
       }
       console.log('Added a new room id: ', groupId, 'Max Client: ', totalClient)
+      socket.emit('roomCreated','Room created successfully')
     }else{
-      socket.emit('roomExisted','Chưa xử lý')
+      socket.emit('roomExisted','Room already exists')
     }
   })
   
@@ -41,14 +42,14 @@ io.on('connection', (socket) => {
         socket.emit('joinedRoom')
       }else{
         if(rooms[groupId].password != password){
-          socket.emit('passDoesNotCorrect','Khong nhan pass')
+          socket.emit('passDoesNotCorrect','Incorrect password')
         }
         if(rooms[groupId].connectedClients >= rooms[groupId].totalClient){
-          socket.emit('passDoesNotCorrect','full')
+          socket.emit('passDoesNotCorrect','The room has enough participants')
         }
       }
     }else{
-      socket.emit('roomDoesNotExist','Khong tim thay phong')
+      socket.emit('roomDoesNotExist','Group not found')
     }
   })
   

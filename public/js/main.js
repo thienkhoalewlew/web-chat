@@ -11,24 +11,45 @@ const messageInput = document.getElementById('message-input')
 
 const messageTone = new Audio('../file/message-tone.mp3')
 
-function chatOnLoad(){
-    const nameInput = document.getElementById('name-input')
-    nameInput.textContent = username;
-    socket.emit('joinRoom', ({username,groupId, password}))
+function chatOnLoad() {
+  const nameInput = document.getElementById('name-input')
+  nameInput.textContent = username;
+  socket.emit('joinRoom', ({ username, groupId, password }))
+  socket.on('passDoesNotCorrect', (message) => {
+    console.log('Lỗi: ' + message);
+    const errorContainer = document.getElementById('errorContainer');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorContainer.style.display = 'flex';
+    setTimeout(() => {
+      closeErrorContainer();
+    }, 1500);
+  });
+
+  socket.on('roomDoesNotExist', (message) => {
+    console.log('Lỗi: ' + message);
+    const errorContainer = document.getElementById('errorContainer');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorContainer.style.display = 'flex';
+    setTimeout(() => {
+      closeErrorContainer();
+    }, 1500);
+  });
 }
 
-socket.on('joinedRoom',function() {
-    const notifi = `${username} joined Room`
-    socket.emit('newJoin', ({groupId,notifi}))
+socket.on('joinedRoom', function () {
+  const notifi = `${username} joined Room`
+  socket.emit('newJoin', ({ groupId, notifi }))
 })
 
 socket.on('newJoin', (notifi) => {
-    const element = `
+  const element = `
         <li class="notifi-newJoin">
           <p class="notifi-newJoin" id="notifi-newJoin">${notifi}</p>
         </li>
         `
-    messageContainer.innerHTML += element
+  messageContainer.innerHTML += element
 })
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -36,21 +57,21 @@ messageForm.addEventListener('submit', (e) => {
 })
 
 function sendMessage() {
-    if (messageInput.value === '') return;
-    const data = {
-        groupId: groupId,
-        name: username,
-        message: messageInput.value,
-        dateTime: new Date(),
-    };
-    socket.emit('message', data);
-    addMessageToUI(true, data);
-    messageInput.value = '';
+  if (messageInput.value === '') return;
+  const data = {
+    groupId: groupId,
+    name: username,
+    message: messageInput.value,
+    dateTime: new Date(),
+  };
+  socket.emit('message', data);
+  addMessageToUI(true, data);
+  messageInput.value = '';
 }
 
 socket.on('chat-message', (data) => {
-    messageTone.play()
-    addMessageToUI(false, data);
+  messageTone.play()
+  addMessageToUI(false, data);
 })
 
 function addMessageToUI(isOwnMessage, data) {
@@ -73,37 +94,37 @@ function scrollToBottom() {
 }
 
 messageInput.addEventListener('focus', (e) => {
-    socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
-    })
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
   })
-  
-  messageInput.addEventListener('keypress', (e) => {
-    socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
-    })
+})
+
+messageInput.addEventListener('keypress', (e) => {
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
   })
-  messageInput.addEventListener('blur', (e) => {
-    socket.emit('feedback', {
-      feedback: '',
-    })
+})
+messageInput.addEventListener('blur', (e) => {
+  socket.emit('feedback', {
+    feedback: '',
   })
-  
-  socket.on('feedback', (data) => {
-    clearFeedback()
-    const element = `
+})
+
+socket.on('feedback', (data) => {
+  clearFeedback()
+  const element = `
           <li class="message-feedback">
             <p class="feedback" id="feedback">${data.feedback}</p>
           </li>
     `
-    messageContainer.innerHTML += element
+  messageContainer.innerHTML += element
+})
+
+function clearFeedback() {
+  document.querySelectorAll('li.message-feedback').forEach((element) => {
+    element.parentNode.removeChild(element)
   })
-  
-  function clearFeedback() {
-    document.querySelectorAll('li.message-feedback').forEach((element) => {
-      element.parentNode.removeChild(element)
-    })
-  }
+}
 /*********************************************************************/
 $(document).ready(function () {
   var imageList = [];
@@ -125,7 +146,7 @@ $(document).ready(function () {
     imageList.forEach(function (imageSrc) {
       var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
       var deleteButton = $('<span>').addClass('delete-image');
-      var deleteIcon = $('<i>').addClass('fas fa-times'); 
+      var deleteIcon = $('<i>').addClass('fas fa-times');
       deleteButton.click(function () {
         deleteImage(imageSrc);
         displayImages();
@@ -157,3 +178,8 @@ $(document).ready(function () {
     }
   }
 });
+function closeErrorContainer() {
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.style.display = 'none';
+  window.history.back();
+}
