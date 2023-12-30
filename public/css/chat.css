@@ -209,7 +209,7 @@ body {
   border: none;
   cursor: pointer;
   padding: 5px 10px;
-  border-radius: 0 0 0 5px; 
+  border-radius: 0 0 0 5px;
   transform: translate(50%, -50%);
 }
 
@@ -239,6 +239,7 @@ body {
   color: #fff;
   cursor: pointer;
 }
+
 .image-item {
   position: relative;
 }
@@ -251,4 +252,37 @@ body {
   font-size: medium;
   background-color: transparent;
   color: #000;
+}
+
+.error {
+  position: absolute;
+  width: 500px;
+  height: 250px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  flex-direction: column;
+  text-align: center;
+}
+
+.error-icon {
+  padding-top: 40px;
+  color: #49a8e7;
+  font-size: 100px;
+  margin-bottom: 10px;
+}
+
+.error p {
+  color: black;
+  font-size: larger;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  background: none;
+  border: none;
+  color: #333;
 }
