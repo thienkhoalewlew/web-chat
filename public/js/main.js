@@ -114,25 +114,25 @@ function scrollToBottom() {
 }
 
 messageInput.addEventListener('focus', (e) => {
-    socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
-    })
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
   })
-  
-  messageInput.addEventListener('keypress', (e) => {
-    socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
-    })
+})
+
+messageInput.addEventListener('keypress', (e) => {
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
   })
-  messageInput.addEventListener('blur', (e) => {
-    socket.emit('feedback', {
-      feedback: '',
-    })
+})
+messageInput.addEventListener('blur', (e) => {
+  socket.emit('feedback', {
+    feedback: '',
   })
-  
-  socket.on('feedback', (data) => {
-    clearFeedback()
-    const element = `
+})
+
+socket.on('feedback', (data) => {
+  clearFeedback()
+  const element = `
           <li class="message-feedback">
             <p class="feedback" id="feedback">${data.feedback}</p>
           </li>
@@ -167,7 +167,7 @@ let imageList = [];
     imageList.forEach(function (imageSrc) {
       var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
       var deleteButton = $('<span>').addClass('delete-image');
-      var deleteIcon = $('<i>').addClass('fas fa-times'); 
+      var deleteIcon = $('<i>').addClass('fas fa-times');
       deleteButton.click(function () {
         deleteImage(imageSrc);
         displayImages();
