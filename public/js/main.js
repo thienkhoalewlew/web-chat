@@ -208,4 +208,8 @@ let imageList = [];
       imageList.splice(index, 1);
     }
   }
-});
+  function closeErrorContainer() {
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.style.display = 'none';
+    window.history.back();
+  }
