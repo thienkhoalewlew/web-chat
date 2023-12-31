@@ -96,15 +96,23 @@ socket.on('newImage', (imageList) => {
 });
 
 function addImageToUI(isOwnMessage, imageBase64List) {
+  $('.image-label').hide();
   imageBase64List.forEach(function (imageBase64) {
     const element = `
       <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
         <p class="message-image">
-          <img src="${imageBase64}" class="message-image" id="message-image">
+          <img src="${imageBase64}" class="message-image-item">
         </p>
       </li>
     `;
     messageContainer.innerHTML += element;
+  });
+
+  $('.message-image-item').on('click', function () {
+    let image = document.getElementById('fullscreen-image');
+    let fullscreenContainer = document.getElementById('fullscreen-container');
+    image.src = this.src;
+    fullscreenContainer.style.display = 'flex';
   });
   scrollToBottom();
 }
@@ -114,25 +122,37 @@ function scrollToBottom() {
 }
 
 messageInput.addEventListener('focus', (e) => {
+<<<<<<<<< Temporary merge branch 1
     socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
+      feedback: `✍️ ${username} is typing a message`,
     })
   })
   
   messageInput.addEventListener('keypress', (e) => {
     socket.emit('feedback', {
-      feedback: `✍️ ${nameInput.value} is typing a message`,
+      feedback: `✍️ ${username} is typing a message`,
     })
+=========
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
   })
-  messageInput.addEventListener('blur', (e) => {
-    socket.emit('feedback', {
-      feedback: '',
-    })
+})
+
+messageInput.addEventListener('keypress', (e) => {
+  socket.emit('feedback', {
+    feedback: `✍️ ${nameInput.value} is typing a message`,
+>>>>>>>>> Temporary merge branch 2
   })
-  
-  socket.on('feedback', (data) => {
-    clearFeedback()
-    const element = `
+})
+messageInput.addEventListener('blur', (e) => {
+  socket.emit('feedback', {
+    feedback: '',
+  })
+})
+
+socket.on('feedback', (data) => {
+  clearFeedback()
+  const element = `
           <li class="message-feedback">
             <p class="feedback" id="feedback">${data.feedback}</p>
           </li>
@@ -148,26 +168,32 @@ function clearFeedback() {
 /*********************************************************************/
 let imageList = [];
 
-  $('.input-file').change(function () {
-    if (this.files?.[0]) {
-      let reader = new FileReader();
-      reader.onload = function (e) {
-        let imageBase64 = e.target.result;
-        imageList.push(imageBase64);
-        displayImages();
-      };
-      
-      reader.readAsDataURL(this.files[0]);
-    }
-  });
+$('.input-file').change(function () {
+  if (this.files?.[0]) {
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      let imageBase64 = e.target.result;
+      imageList.push(imageBase64);
+      displayImages();
+    };
+
+    reader.readAsDataURL(this.files[0]);
+  }
+});
 
   function displayImages() {
     let imageListContainer = $('#image-list-container');
     imageListContainer.empty();
     imageList.forEach(function (imageSrc) {
+<<<<<<<<< Temporary merge branch 1
+      let imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
+      let deleteButton = $('<span>').addClass('delete-image');
+      let deleteIcon = $('<i>').addClass('fas fa-times'); 
+=========
       var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
       var deleteButton = $('<span>').addClass('delete-image');
-      var deleteIcon = $('<i>').addClass('fas fa-times'); 
+      var deleteIcon = $('<i>').addClass('fas fa-times');
+>>>>>>>>> Temporary merge branch 2
       deleteButton.click(function () {
         deleteImage(imageSrc);
         displayImages();
@@ -180,27 +206,27 @@ let imageList = [];
     $('.image-label').toggle(imageList.length > 0);
   }
 
-  function sendImage(){
-    if (imageList.length > 0) {
-      socket.emit('dataImage', ({groupId, imageList}));
-      addImageToUI(true, imageList)
-      $('#image-list-container').empty();
-      imageList = [];
+function sendImage() {
+  if (imageList.length > 0) {
+    socket.emit('dataImage', ({ groupId, imageList }));
+    addImageToUI(true, imageList)
     $('#image-list-container').empty();
-    }
+    imageList = [];
+    $('#image-list-container').empty();
   }
+}
 
-  $('#image-list-container').on('click', '.image-preview', function () {
-    let image = document.getElementById('fullscreen-image');
-    let fullscreenContainer = document.getElementById('fullscreen-container');
-    image.src = this.src;
-    fullscreenContainer.style.display = 'flex';
-  });
+$('#image-list-container').on('click', '.image-preview', function () {
+  let image = document.getElementById('fullscreen-image');
+  let fullscreenContainer = document.getElementById('fullscreen-container');
+  image.src = this.src;
+  fullscreenContainer.style.display = 'flex';
+});
 
-  document.getElementById('close-fullscreen').addEventListener('click', function () {
-    let fullscreenContainer = document.getElementById('fullscreen-container');
-    fullscreenContainer.style.display = 'none';
-  });
+document.getElementById('close-fullscreen').addEventListener('click', function () {
+  let fullscreenContainer = document.getElementById('fullscreen-container');
+  fullscreenContainer.style.display = 'none';
+});
 
   function deleteImage(imageSrc) {
     let index = imageList.indexOf(imageSrc);
@@ -208,3 +234,12 @@ let imageList = [];
       imageList.splice(index, 1);
     }
   }
+<<<<<<<<< Temporary merge branch 1
+=========
+});
+function closeErrorContainer() {
+  const errorContainer = document.getElementById('errorContainer');
+  errorContainer.style.display = 'none';
+  window.history.back();
+}
+>>>>>>>>> Temporary merge branch 2

@@ -18,6 +18,9 @@ function copyID() {
     let textBox = document.getElementsByName("idGroupCreate")[0];
     textBox.select();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 244401a009b986a85ae782262ee0b106a5bb12e1
     navigator.clipboard.writeText(textBox.value)
         .then(() => {
             alert("Copy ID successfully!");
@@ -25,14 +28,20 @@ function copyID() {
         .catch(err => {
             console.error('Unable to copy:', err);
         });
+<<<<<<< HEAD
 =======
     document.execCommand("copy");
     window.getSelection().removeAllRanges();
+=======
+>>>>>>> 244401a009b986a85ae782262ee0b106a5bb12e1
 }
 function closeErrorContainer() {
     const errorContainer = document.getElementById('errorContainer');
     errorContainer.style.display = 'none';
+<<<<<<< HEAD
 >>>>>>> 00bc1f7ef3b741f93175d3ddb335ef80ff0c41b7
+=======
+>>>>>>> 244401a009b986a85ae782262ee0b106a5bb12e1
 }
 
 /*******************************************************/

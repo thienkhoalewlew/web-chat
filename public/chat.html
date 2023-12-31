@@ -11,17 +11,17 @@
 
 <body onload="chatOnLoad()">
   <h1 class="title">LetChat 💬</h1>
-  <div class="main">
+  <div class="container">
     <div class="name">
       <span><i class="far fa-user"></i></span>
       <label id="name-input" class="name-input" maxlength="20">
         anonymous
       </label>
     </div>
-
-    <ul class="message-container" id="message-container">
-      <!-- These li elements are only for reference, and therefore, they are commented out... -->
-      <!-- <li class="message-left">
+    <div class="main">
+      <ul class="message-container" id="message-container">
+        <!-- These li elements are only for reference, and therefore, they are commented out... -->
+        <!-- <li class="message-left">
           <p class="message">
             lorem impsun
             <span>bluebird ● 26 July 10:40</span>
@@ -38,43 +38,44 @@
         <li class="message-feedback">
           <p class="feedback" id="feedback">✍️ killer is typing a message...</p>
         </li> -->
-    </ul>
-    <label class="image-label">
-      <div id="image-list-container" class="image-list-container"></div>
-    </label>
-    <!--Hiển thị ảnh toàn màn hình-->
-    <div id="fullscreen-container" class="fullscreen-container">
-      <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Fullscreen Image">
-      <span id="close-fullscreen" class="close-fullscreen">&times;</span>
-    </div>
-    <!---->
+      </ul>
+      <label class="image-label">
+        <div id="image-list-container" class="image-list-container"></div>
+      </label>
+      <!--Hiển thị ảnh toàn màn hình-->
+      <div id="fullscreen-container" class="fullscreen-container">
+        <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Fullscreen Image">
+        <span id="close-fullscreen" class="close-fullscreen">&times;</span>
+      </div>
+      <!---->
 
-    <form class="message-form" id="message-form">
-      <button class="button-upload"><span><i class="fas fa-paperclip"></i></span>
-        <input type="file" class="input-file" id="input-file">
-      </button>
-      <button class="button-upload"><span><i class="fas fa-image"></i></span>
-        <input type="file" class="input-file" id="input-file" accept=".png, .jpg, .jpeg">
-      </button>
-      <button class="button-upload">
-        <span><i class="fas fa-microphone"></i></span>
-        <input type="file" class="input-audio" id="input-audio" accept=".mp3">
-      </button>
-      <div class="v-divider"></div>
-      <input type="text" name="message" id="message-input" class="message-input" />
-      <div class="v-divider"></div>
-      <button type="submit" class="send-button">
-        send <span><i class="fas fa-paper-plane"></i></span>
-      </button>
-    </form>
-  </div>
-  <div class="fullscreen-container" id="errorContainer">
-    <div class="error">
+      <form class="message-form" id="message-form">
+        <button class="button-upload"><span><i class="fas fa-paperclip"></i></span>
+          <input type="file" class="input-file" id="input-file">
+        </button>
+        <button class="button-upload"><span><i class="fas fa-image"></i></span>
+          <input type="file" class="input-file" id="input-file" accept=".png, .jpg, .jpeg">
+        </button>
+        <button class="button-upload">
+          <span><i class="fas fa-microphone"></i></span>
+          <input type="file" class="input-audio" id="input-audio" accept=".mp3">
+        </button>
+        <div class="v-divider"></div>
+        <input type="text" name="message" id="message-input" class="message-input" />
+        <div class="v-divider"></div>
+        <button type="submit" class="send-button">
+          send <span><i class="fas fa-paper-plane"></i></span>
+        </button>
+      </form>
+    </div>
+    <div class="fullscreen-container" id="errorContainer">
+      <div class="error">
         <button class="close-button" onclick="closeErrorContainer()"><i class="fa-solid fa-x"></i></button>
         <div class="error-icon"><i class="fa-regular fa-circle-xmark"></i></div>
         <p id="errorMessage"></p>
+      </div>
     </div>
-</div>
+  </div>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
     integrity="sha512-Q1f3TS3vSt1jQ8AwP2OuenztnLU6LwxgyyYOG1jgMW/cbEMHps/3wjvnl1P3WTrF3chJUWEoxDUEjMxDV8pujg=="
