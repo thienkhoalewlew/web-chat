@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     const { groupId, password } = data
 
     if(rooms[groupId]){
-      if(rooms[groupId].password == password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
+      if(rooms[groupId].password === password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
         socket.join(groupId);
         rooms[groupId].connectedClients++
         console.log('A client joined room ',groupId,': ', socket.id)

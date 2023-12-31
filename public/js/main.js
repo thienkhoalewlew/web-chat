@@ -122,17 +122,6 @@ function scrollToBottom() {
 }
 
 messageInput.addEventListener('focus', (e) => {
-<<<<<<<<< Temporary merge branch 1
-    socket.emit('feedback', {
-      feedback: `✍️ ${username} is typing a message`,
-    })
-  })
-  
-  messageInput.addEventListener('keypress', (e) => {
-    socket.emit('feedback', {
-      feedback: `✍️ ${username} is typing a message`,
-    })
-=========
   socket.emit('feedback', {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   })
@@ -141,7 +130,6 @@ messageInput.addEventListener('focus', (e) => {
 messageInput.addEventListener('keypress', (e) => {
   socket.emit('feedback', {
     feedback: `✍️ ${nameInput.value} is typing a message`,
->>>>>>>>> Temporary merge branch 2
   })
 })
 messageInput.addEventListener('blur', (e) => {
@@ -181,36 +169,29 @@ $('.input-file').change(function () {
   }
 });
 
-  function displayImages() {
-    let imageListContainer = $('#image-list-container');
-    imageListContainer.empty();
-    imageList.forEach(function (imageSrc) {
-<<<<<<<<< Temporary merge branch 1
-      let imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
-      let deleteButton = $('<span>').addClass('delete-image');
-      let deleteIcon = $('<i>').addClass('fas fa-times'); 
-=========
-      var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
-      var deleteButton = $('<span>').addClass('delete-image');
-      var deleteIcon = $('<i>').addClass('fas fa-times');
->>>>>>>>> Temporary merge branch 2
-      deleteButton.click(function () {
-        deleteImage(imageSrc);
-        displayImages();
-      });
-      deleteButton.append(deleteIcon);
-      let imageItem = $('<div>').addClass('image-item').append(deleteButton).append(imgElement);
-      imageItem.css('display', 'inline-block');
-      imageListContainer.append(imageItem);
+function displayImages() {
+  let imageListContainer = $('#image-list-container');
+  imageListContainer.empty();
+  imageList.forEach(function (imageSrc) {
+    var imgElement = $('<img>').attr('src', imageSrc).addClass('image-preview');
+    var deleteButton = $('<span>').addClass('delete-image');
+    var deleteIcon = $('<i>').addClass('fas fa-times');
+    deleteButton.click(function () {
+      deleteImage(imageSrc);
+      displayImages();
     });
-    $('.image-label').toggle(imageList.length > 0);
-  }
+    deleteButton.append(deleteIcon);
+    let imageItem = $('<div>').addClass('image-item').append(deleteButton).append(imgElement);
+    imageItem.css('display', 'inline-block');
+    imageListContainer.append(imageItem);
+  });
+  $('.image-label').toggle(imageList.length > 0);
+}
 
 function sendImage() {
   if (imageList.length > 0) {
     socket.emit('dataImage', ({ groupId, imageList }));
     addImageToUI(true, imageList)
-    $('#image-list-container').empty();
     imageList = [];
     $('#image-list-container').empty();
   }
@@ -228,18 +209,14 @@ document.getElementById('close-fullscreen').addEventListener('click', function (
   fullscreenContainer.style.display = 'none';
 });
 
-  function deleteImage(imageSrc) {
-    let index = imageList.indexOf(imageSrc);
-    if (index !== -1) {
-      imageList.splice(index, 1);
-    }
+function deleteImage(imageSrc) {
+  let index = imageList.indexOf(imageSrc);
+  if (index !== -1) {
+    imageList.splice(index, 1);
   }
-<<<<<<<<< Temporary merge branch 1
-=========
-});
+}
 function closeErrorContainer() {
   const errorContainer = document.getElementById('errorContainer');
   errorContainer.style.display = 'none';
   window.history.back();
 }
->>>>>>>>> Temporary merge branch 2
