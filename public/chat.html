@@ -10,15 +10,21 @@
 </head>
 
 <body onload="chatOnLoad()">
-  <h1 class="title">LetChat 💬</h1>
   <div class="container">
     <div class="name">
-      <span><i class="far fa-user"></i></span>
-      <label id="name-input" class="name-input" maxlength="20">
-        anonymous
-      </label>
+      <p>Group ID:</p>
+      <span><i class="fa-solid fa-user-group"></i></span>
+      <label id="groupID" name="groupID" class="name-input" maxlength="20">anonymous</label>
+      <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
+      <p>> You:</p>
+      <span><i class="fas fa-user"></i></span>
+      <label id="name-input" class="name-input" maxlength="20">anonymous</label>
+      <p>> Participants:</p>
+      <div id="participants-list" ></div>
     </div>
+    
     <div class="main">
+      
       <ul class="message-container" id="message-container">
         <!-- These li elements are only for reference, and therefore, they are commented out... -->
         <!-- <li class="message-left">
@@ -43,10 +49,7 @@
         <div id="image-list-container" class="image-list-container"></div>
       </label>
       <!--Hiển thị ảnh toàn màn hình-->
-      <div id="fullscreen-container" class="fullscreen-container">
-        <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Fullscreen Image">
-        <span id="close-fullscreen" class="close-fullscreen">&times;</span>
-      </div>
+      
       <!---->
 
       <form class="message-form" id="message-form">
@@ -60,7 +63,7 @@
         <input type="text" name="message" id="message-input" class="message-input" />
         <div class="v-divider"></div>
         <button type="submit" class="send-button">
-          send <span><i class="fas fa-paper-plane"></i></span>
+           <span><i class="fas fa-paper-plane"></i></span>
         </button>
       </form>
     </div>
@@ -71,6 +74,17 @@
         <p id="errorMessage"></p>
       </div>
     </div>
+    <div class="fullscreen-container" id="correctContainer">
+      <div class="error">
+        <button class="close-button" onclick="closeCorrectContainer()"><i class="fa-solid fa-x"></i></button>
+        <div class="error-icon"><i class="fa-regular fa-circle-check"></i></div>
+        <p id="correctMessage"></p>
+      </div>
+    </div>
+  </div>
+  <div id="fullscreen-container" class="fullscreen-container">
+    <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Fullscreen Image">
+    <span id="close-fullscreen" class="close-fullscreen">&times;</span>
   </div>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"

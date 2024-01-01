@@ -22,7 +22,6 @@ body {
   transform: translate(-50%, -50%);
   background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 25px;
   backdrop-filter: blur(20px);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   width: 700px;
@@ -305,12 +304,12 @@ input[type="submit"]:hover {
   padding-top: 40px;
   color: #49a8e7;
   font-size: 100px;
-  margin-bottom: 10px;
+
 }
 
 .error p {
   color: black;
-  font-size: larger;
+  font-size: large;
 }
 
 .close-button {

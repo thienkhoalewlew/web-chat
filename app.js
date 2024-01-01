@@ -1,6 +1,6 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require('socket.io'); 
+const socketIo = require('socket.io');
 
 const path = require("path");
 const app = express();
@@ -12,62 +12,66 @@ const io = socketIo(server);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const rooms = {}; 
+const rooms = {};
 checkAndRemoveEmptyRooms();
 io.on('connection', (socket) => {
   console.log(socket.id, 'connected');
 
-  socket.on('createRoom', (data) =>{
-    const {groupId, totalClient, password} = data;
-    if(!rooms[groupId]){
+  socket.on('createRoom', (data) => {
+    const { groupId, totalClient, password } = data;
+    if (!rooms[groupId]) {
       rooms[groupId] = {
         connectedClients: 0,
         totalClient: totalClient,
-        password: password
+        password: password,
+        participants: []
       }
       console.log('Added a new room id: ', groupId, 'Max Client: ', totalClient)
-      socket.emit('roomCreated','Room created successfully')
-    }else{
-      socket.emit('roomExisted','Room already exists')
+      socket.emit('roomCreated', 'Room created successfully')
+    } else {
+      socket.emit('roomExisted', 'Room already exists')
     }
   })
-  
-  socket.on('joinRoom', (data) => {
-    const { groupId, password } = data
 
-    if(rooms[groupId]){
-      if(rooms[groupId].password === password && rooms[groupId].connectedClients < rooms[groupId].totalClient){
+  socket.on('joinRoom', (data) => {
+    const { groupId, password, username } = data;
+
+    if (rooms[groupId]) {
+      if (rooms[groupId].password === password && rooms[groupId].connectedClients < rooms[groupId].totalClient) {
         socket.join(groupId);
-        rooms[groupId].connectedClients++
-        console.log('A client joined room ',groupId,': ', socket.id)
-        socket.emit('joinedRoom')
-      }else{
-        if(rooms[groupId].password != password){
-          socket.emit('passDoesNotCorrect','Incorrect password')
+
+        const user = { id: socket.id, username, groupId };
+        rooms[groupId].participants.push(user);
+
+        rooms[groupId].connectedClients++;
+        console.log('A client joined room ', groupId, ': ', socket.id);
+        socket.emit('joinedRoom', rooms[groupId].participants);
+      } else {
+        if (rooms[groupId].password !== password) {
+          socket.emit('passDoesNotCorrect', 'Incorrect password');
         }
-        if(rooms[groupId].connectedClients >= rooms[groupId].totalClient){
-          socket.emit('passDoesNotCorrect','The room has enough participants')
+        if (rooms[groupId].connectedClients >= rooms[groupId].totalClient) {
+          socket.emit('passDoesNotCorrect', 'The room has enough participants');
         }
       }
-    }else{
-      socket.emit('roomDoesNotExist','Group not found')
+    } else {
+      socket.emit('roomDoesNotExist', 'Group not found');
     }
-  })
-  
-  socket.on('newJoin',(data) => {
-    const {groupId, notifi} = data  
+  });
+  socket.on('newJoin', (data) => {
+    const { groupId, notifi } = data
     socket.to(groupId).emit('newJoin', notifi);
   })
 
   socket.on('message', (data) => {
     const { groupId, name, message, dateTime } = data;
-  
+
     socket.to(groupId).emit('chat-message', { name, message, dateTime });
   });
 
   socket.on('dataImage', (data) => {
-      const { groupId, imageList } = data;
-      socket.to(groupId).emit('newImage', imageList);
+    const { groupId, imageList } = data;
+    socket.to(groupId).emit('newImage', imageList);
   });
 
   socket.on('disconnect', () => {
@@ -79,6 +83,15 @@ io.on('connection', (socket) => {
     //     delete rooms[groupId];
     //     console.log(`Room ${groupId} has been removed.`);
     //   }
+    Object.keys(rooms).forEach((groupId) => {
+      const participants = rooms[groupId].participants;
+      const index = participants.findIndex(user => user.id === socket.id);
+      if (index !== -1) {
+        participants.splice(index, 1);
+        rooms[groupId].connectedClients--;
+        io.to(groupId).emit('leftRoom', rooms[groupId].participants);
+      }
+    });
   });
   socket.on('sendFile', (data) => {
     const {groupId, fileName, fileArrayBuffer} = data
@@ -90,6 +103,7 @@ io.on('connection', (socket) => {
   
     socket.to(groupId).emit('receivedChunk', { fileName, chunk, chunkArraybuffer });
   });
+
 
   socket.on('feedback', (data) => {
     socket.broadcast.emit('feedback', data)
