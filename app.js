@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 
 const path = require("path");
 const app = express();
+const fs = require('fs');
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => console.log(`💬 server on port ${PORT}`));
@@ -79,8 +80,16 @@ io.on('connection', (socket) => {
     //     console.log(`Room ${groupId} has been removed.`);
     //   }
   });
+  socket.on('sendFile', (data) => {
+    const {groupId, fileName, fileArrayBuffer} = data
+    socket.to(groupId).emit('receivedFile', {fileName, fileArrayBuffer})
+  });
 
+  socket.on('sendChunk', (data) => {
+    const { groupId, fileName, chunk, chunkArraybuffer } = data;
   
+    socket.to(groupId).emit('receivedChunk', { fileName, chunk, chunkArraybuffer });
+  });
 
   socket.on('feedback', (data) => {
     socket.broadcast.emit('feedback', data)

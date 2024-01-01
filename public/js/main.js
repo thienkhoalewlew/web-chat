@@ -8,6 +8,7 @@ const password = urlParams.get('password')
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
+const fileInput = document.getElementById('input-file');
 
 const messageTone = new Audio('../file/message-tone.mp3')
 
@@ -123,13 +124,13 @@ function scrollToBottom() {
 
 messageInput.addEventListener('focus', (e) => {
   socket.emit('feedback', {
-    feedback: `✍️ ${nameInput.value} is typing a message`,
+    feedback: `✍️ ${username} is typing a message`,
   })
 })
 
 messageInput.addEventListener('keypress', (e) => {
   socket.emit('feedback', {
-    feedback: `✍️ ${nameInput.value} is typing a message`,
+    feedback: `✍️ ${username} is typing a message`,
   })
 })
 messageInput.addEventListener('blur', (e) => {
@@ -156,7 +157,7 @@ function clearFeedback() {
 /*********************************************************************/
 let imageList = [];
 
-$('.input-file').change(function () {
+$('.input-image').change(function () {
   if (this.files?.[0]) {
     let reader = new FileReader();
     reader.onload = function (e) {
@@ -168,6 +169,100 @@ $('.input-file').change(function () {
     reader.readAsDataURL(this.files[0]);
   }
 });
+
+$('.input-file').change(function(){
+  if(this.files?.[0]) {
+    const file = this.files[0];
+    const downloadLink = URL.createObjectURL(file);
+    const fileName = file.name;
+    const fileSize = file.size
+    const chunkSize = 1024 * 1024; // 1MB
+    
+    addFileToUI(true, fileName, downloadLink);
+
+    if (fileSize <= 1024 * 1024 * 1.5) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        let fileArrayBuffer = e.target.result;
+        socket.emit('sendFile', { groupId, fileName, fileArrayBuffer });
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      const chunks = Math.ceil(fileSize / chunkSize);
+      let start = 0;
+      let end = chunkSize;
+      for (let i = 0; i < chunks; i++) {
+        const chunk = file.slice(start, end); 
+        const reader = new FileReader()
+        reader.onload = function (e){
+          let chunkArraybuffer = e.target.result;
+          socket.emit('sendChunk', { groupId, fileName, chunk, chunkArraybuffer });
+        }
+        reader.readAsArrayBuffer(chunk);
+        start = end;
+        end = start + chunkSize <= fileSize ? start + chunkSize : fileSize;
+      }
+    }
+  }
+});
+
+const receivedChunks = {};
+
+socket.on('receiveChunk', ({ fileName,chunk, chunkArrayBuffer }) => {
+  if (!receivedChunks[fileName]) {
+    receivedChunks[fileName] = [chunkArrayBuffer];
+  } else {
+    receivedChunks[fileName].push(chunkArrayBuffer);
+  }
+
+  if (checkIfAllChunksReceived(chunk)) {
+    const mergedFileLink = mergeChunks(receivedChunks[fileName]);
+    addFileToUI(false,fileName,mergedFileLink )
+  }
+});
+
+function checkIfAllChunksReceived(chunk) {
+  if(receivedChunks.length == chunk){
+    return true
+  } else{
+    return false
+  }
+}
+
+function mergeChunks(chunksArray) {
+  const mergedArrayBuffer = new Uint8Array(
+    chunksArray.reduce((acc, chunk) => acc + chunk.byteLength, 0)
+  );
+
+  let offset = 0;
+  chunksArray.forEach((chunk) => {
+    mergedArrayBuffer.set(new Uint8Array(chunk), offset);
+    offset += chunk.byteLength;
+  });
+  const mergedBlob = new Blob([mergedArrayBuffer], { type: 'application/octet-stream' });
+
+  return mergedBlob;
+}
+
+socket.on('receivedFile', (data) => {
+  const {fileName, fileArrayBuffer} = data
+  const blob = new Blob([fileArrayBuffer], { type: 'application/octet-stream' });
+  const blobURL = URL.createObjectURL(blob);
+  messageTone.play()
+  addFileToUI(false, fileName, blobURL)
+})
+
+function addFileToUI(isOwnMessage, fileName, downloadLink) {
+  
+  const element = `
+    <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
+      <p class="message">
+        <a href="${downloadLink}" download="${fileName}" class="file-link">${fileName}</a>
+      </p>
+    </li>
+  `;
+  messageContainer.innerHTML += element;
+}
 
 function displayImages() {
   let imageListContainer = $('#image-list-container');

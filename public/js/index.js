@@ -51,7 +51,7 @@ document.forms["formNewGroup"].addEventListener('submit', function (event) {
     socket.emit('createRoom', ({ groupId, totalClient, password }))
     socket.on('roomCreated', (message) => {
         console.log('Thông báo: ' + message);
-        window.location.href = `http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`;
+        window.location.href = `../chat.html?username=${username}&groupId=${groupId}&password=${password}`;
     });
 
     socket.on('roomExisted', (message) => {
@@ -73,5 +73,5 @@ document.forms["formGroup"].addEventListener('submit', function (event) {
     console.log(username)
     const groupId = document.getElementById("IdGroup").value;
     const password = document.getElementById('passwordJoin').value;
-    window.location.href = `http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`
+    window.location.href = `../chat.html?username=${username}&groupId=${groupId}&password=${password}`
 });
