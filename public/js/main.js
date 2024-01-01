@@ -10,10 +10,12 @@ const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 
 const messageTone = new Audio('../file/message-tone.mp3')
-
+const usersInGroup = [];
 function chatOnLoad() {
   const nameInput = document.getElementById('name-input')
+  const groupID = document.getElementById('groupID')
   nameInput.textContent = username;
+  groupID.textContent = groupId;
   socket.emit('joinRoom', ({ username, groupId, password }))
   socket.on('passDoesNotCorrect', (message) => {
     console.log('Lỗi: ' + message);
@@ -38,10 +40,10 @@ function chatOnLoad() {
   });
 }
 
-socket.on('joinedRoom', function () {
-  const notifi = `${username} joined Room`
-  socket.emit('newJoin', ({ groupId, notifi }))
-})
+socket.on('joinedRoom', function (participants) {
+  const notifi = `${username} joined Room`;
+  socket.emit('newJoin', ({ groupId, notifi }));
+});
 
 socket.on('newJoin', (notifi) => {
   const element = `
@@ -56,6 +58,9 @@ messageForm.addEventListener('submit', (e) => {
   sendMessage()
   sendImage()
 })
+socket.on('leftRoom', function (participants) {
+  updateParticipantsList(participants);
+});
 
 function sendMessage() {
   if (messageInput.value === '') return;
@@ -220,3 +225,25 @@ function closeErrorContainer() {
   errorContainer.style.display = 'none';
   window.history.back();
 }
+function closeCorrectContainer() {
+  const correctContainer = document.getElementById('correctContainer');
+  correctContainer.style.display = 'none';
+}
+function copyID() {
+  var groupIDValue = document.getElementById("groupID").innerText;
+  var textarea = document.createElement("textarea");
+  textarea.value = groupIDValue;
+  document.body.appendChild(textarea);
+  textarea.select();
+  navigator.clipboard.writeText(textarea.value)
+  document.body.removeChild(textarea);
+  const correctContainer = document.getElementById('correctContainer');
+  const correctMessage = document.getElementById('correctMessage');
+  correctMessage.textContent = "Copy Group ID successfully";
+  correctContainer.style.display = 'flex';
+  setTimeout(() => {
+    closeCorrectContainer();
+  }, 1500);
+}
+
+

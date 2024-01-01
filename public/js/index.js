@@ -18,26 +18,62 @@ function copyID() {
     let textBox = document.getElementsByName("idGroupCreate")[0];
     textBox.select();
     navigator.clipboard.writeText(textBox.value)
-        .then(() => {
-            alert("Copy ID successfully!");
-        })
-        .catch(err => {
-            console.error('Unable to copy:', err);
-        });
+    const correctContainer = document.getElementById('correctContainer');
+    const correctMessage = document.getElementById('correctMessage');
+    correctMessage.textContent = "Copy Group ID successfully";
+    correctContainer.style.display = 'flex';
+    setTimeout(() => {
+        closeCorrectContainer();
+    }, 1500);
 }
 function closeErrorContainer() {
     const errorContainer = document.getElementById('errorContainer');
     errorContainer.style.display = 'none';
 }
+function closeCorrectContainer() {
+    const correctContainer = document.getElementById('correctContainer');
+    correctContainer.style.display = 'none';
+}
+var existingRooms = [];
+function generateRandomRoom() {
+    function getRandomUniqueRoom() {
+        var randomRoomNumber;
+        do {
+            randomRoomNumber = Math.floor(Math.random() * 90000) + 10000;
+        } while (existingRooms.includes(randomRoomNumber));
+        return randomRoomNumber;
+    }
+    var randomRoomValue = getRandomUniqueRoom();
+    document.getElementById("idGroupCreate").value = randomRoomValue;
+}
 
+
+function validateForm(usernameInput) {
+    var usernameValue = usernameInput.value.trim();
+    if (usernameValue === "" || usernameValue.length > 20) {
+        return false;
+    } else {
+        return true;
+    }
+}
+window.onload = generateRandomRoom;
 /*******************************************************/
 
 const socket = io()
 const usernameInput = document.getElementById('username')
-
 document.forms["formNewGroup"].addEventListener('submit', function (event) {
     event.preventDefault();
-
+    var validName = validateForm(usernameInput)
+    if (!validName) {
+        const errorContainer = document.getElementById('errorContainer');
+        errorContainer.style.display = 'flex';
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = "Username cannot contain only spaces or exceed 20 characters";
+        setTimeout(() => {
+            closeErrorContainer();
+        }, 1500);
+        return
+    }
     const username = usernameInput.value
     console.log(username)
     const groupId = document.getElementById("idGroupCreate").value;
@@ -51,6 +87,7 @@ document.forms["formNewGroup"].addEventListener('submit', function (event) {
     socket.emit('createRoom', ({ groupId, totalClient, password }))
     socket.on('roomCreated', (message) => {
         console.log('Thông báo: ' + message);
+        existingRooms.push(parseInt(groupId));
         window.location.href = `http://localhost:4000/chat.html?username=${username}&groupId=${groupId}&password=${password}`;
     });
 
@@ -62,13 +99,23 @@ document.forms["formNewGroup"].addEventListener('submit', function (event) {
         errorMessage.textContent = message;
         setTimeout(() => {
             closeErrorContainer();
-          }, 1500);
+        }, 3000);
     });
 });
 
 document.forms["formGroup"].addEventListener('submit', function (event) {
     event.preventDefault();
-
+    var validName = validateForm(usernameInput)
+    if (!validName) {
+        const errorContainer = document.getElementById('errorContainer');
+        errorContainer.style.display = 'flex';
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = "Username cannot contain only spaces or exceed 20 characters";
+        setTimeout(() => {
+            closeErrorContainer();
+        }, 3000);
+        return
+    }
     const username = usernameInput.value
     console.log(username)
     const groupId = document.getElementById("IdGroup").value;

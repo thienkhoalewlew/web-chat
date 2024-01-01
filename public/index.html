@@ -44,8 +44,8 @@
 
                 <div class="idGroupContain">
                     <p>Group ID:</p>
-                    <input type="text" id="idGroupCreate" name="idGroupCreate" style="margin-left: 25px;" class="center-placeholder"
-                        value="12345" readonly>
+                    <input type="text" id="idGroupCreate" name="idGroupCreate" style="margin-left: 25px;"
+                        class="center-placeholder" readonly>
                     <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
                 </div>
 
@@ -107,6 +107,13 @@
             <button class="close-button" onclick="closeErrorContainer()"><i class="fa-solid fa-x"></i></button>
             <div class="error-icon"><i class="fa-regular fa-circle-xmark"></i></div>
             <p id="errorMessage"></p>
+        </div>
+    </div>
+    <div class="error-container" id="correctContainer">
+        <div class="error">
+            <button class="close-button" onclick="closeCorrectContainer()"><i class="fa-solid fa-x"></i></button>
+            <div class="error-icon"><i class="fa-regular fa-circle-check"></i></div>
+            <p id="correctMessage"></p>
         </div>
     </div>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
