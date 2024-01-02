@@ -15,12 +15,13 @@
       <p>Group ID:</p>
       <span><i class="fa-solid fa-user-group"></i></span>
       <label id="groupID" name="groupID" class="name-input" maxlength="20">anonymous</label>
-      <button type="button" onclick="copyID()"><i class="fa-regular fa-copy"></i></button>
+      <button type="button" onclick="copyID()" class="btnCopy" id="btnCopy"><i class="fa-regular fa-copy"></i></button>
       <p>> You:</p>
       <span><i class="fas fa-user"></i></span>
       <label id="name-input" class="name-input" maxlength="20">anonymous</label>
       <p>> Participants:</p>
-      <div id="participants-list" ></div>
+      <div class="participants-list" id="participants-list" ></div>
+      <button class="btnLeaveRoom" id="btnLeaveRoom">Leave Room</button>
     </div>
     
     <div class="main">

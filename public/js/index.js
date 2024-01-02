@@ -88,7 +88,7 @@ document.forms["formNewGroup"].addEventListener('submit', function (event) {
     socket.on('roomCreated', (message) => {
         console.log('Thông báo: ' + message);
         existingRooms.push(parseInt(groupId));
-        window.location.href = `/public/chat.html?username=${username}&groupId=${groupId}&password=${password}`;
+        window.location.href = `../chat.html?username=${username}&groupId=${groupId}&password=${password}`;
     });
 
     socket.on('roomExisted', (message) => {

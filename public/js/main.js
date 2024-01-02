@@ -9,6 +9,7 @@ const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 const fileInput = document.getElementById('input-file');
+const List = document.getElementById('participants-list')
 
 const messageTone = new Audio('../file/message-tone.mp3')
 const usersInGroup = [];
@@ -17,6 +18,7 @@ function chatOnLoad() {
   const groupID = document.getElementById('groupID')
   nameInput.textContent = username;
   groupID.textContent = groupId;
+  
   socket.emit('joinRoom', ({ username, groupId, password }))
   socket.on('passDoesNotCorrect', (message) => {
     console.log('Lỗi: ' + message);
@@ -41,7 +43,7 @@ function chatOnLoad() {
   });
 }
 
-socket.on('joinedRoom', function (participants) {
+socket.on('joinedRoom', (participants) => {
   const notifi = `${username} joined Room`;
   socket.emit('newJoin', ({ groupId, notifi }));
 });
@@ -53,7 +55,9 @@ socket.on('newJoin', (notifi) => {
         </li>
         `
   messageContainer.innerHTML += element
+
 })
+
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
   sendMessage()
@@ -181,10 +185,10 @@ $('.input-file').change(function(){
     const downloadLink = URL.createObjectURL(file);
     const fileName = file.name;
     const fileSize = file.size
-    const chunkSize = 1024 * 1024; // 1MB
-    
-    addFileToUI(true, fileName, downloadLink);
+    const chunkSize = 1024 * 1024 * 0.5; // 0.5MB
+    const totalChunks = Math.ceil(file.size / chunkSize);
 
+    addFileToUI(true, fileName, downloadLink);
     if (fileSize <= 1024 * 1024 * 1.5) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -193,60 +197,66 @@ $('.input-file').change(function(){
       };
       reader.readAsArrayBuffer(file);
     } else {
-      const chunks = Math.ceil(fileSize / chunkSize);
-      let start = 0;
-      let end = chunkSize;
-      for (let i = 0; i < chunks; i++) {
-        const chunk = file.slice(start, end); 
-        const reader = new FileReader()
-        reader.onload = function (e){
-          let chunkArraybuffer = e.target.result;
-          socket.emit('sendChunk', { groupId, fileName, chunk, chunkArraybuffer });
-        }
-        reader.readAsArrayBuffer(chunk);
-        start = end;
-        end = start + chunkSize <= fileSize ? start + chunkSize : fileSize;
-      }
+      let offset = 0;
+
+      const readChunk = () => {
+        const blob = file.slice(offset, offset + chunkSize);
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          let fileArrayBuffer = e.target.result;
+          socket.emit('sendChunk', { groupId, fileName, fileArrayBuffer, offset, totalChunks });
+
+          if (offset + chunkSize < file.size) {
+            offset += chunkSize;
+            readChunk();
+          }
+        };
+
+        reader.readAsArrayBuffer(blob);
+      };
+
+      readChunk();
     }
   }
 });
 
-const receivedChunks = {};
+let receivedChunks = {};
 
-socket.on('receiveChunk', ({ fileName,chunk, chunkArrayBuffer }) => {
+socket.on('resendChunk', (data) => {
+  const {fileName, fileArrayBuffer, offset, totalChunks} = data;
+
   if (!receivedChunks[fileName]) {
-    receivedChunks[fileName] = [chunkArrayBuffer];
-  } else {
-    receivedChunks[fileName].push(chunkArrayBuffer);
+    receivedChunks[fileName] = [];
   }
+  
+  receivedChunks[fileName][offset] = fileArrayBuffer;
 
-  if (checkIfAllChunksReceived(chunk)) {
-    const mergedFileLink = mergeChunks(receivedChunks[fileName]);
-    addFileToUI(false,fileName,mergedFileLink )
+  if (checkReceivedChunks(fileName, totalChunks)) {
+    const mergedArrayBuffer = mergeArrayBuffers(receivedChunks[fileName]);
+    const file = new Blob([mergedArrayBuffer], { type: 'application/octet-stream' });
+    
+    const downloadLink = URL.createObjectURL(file);
+    addFileToUI(false, fileName, downloadLink);
   }
 });
 
-function checkIfAllChunksReceived(chunk) {
-  if(receivedChunks.length == chunk){
-    return true
-  } else{
-    return false
-  }
+function checkReceivedChunks(fileName, totalChunks) {
+  const receivedChunkCount = receivedChunks[fileName].filter(chunk => chunk).length;
+  return receivedChunkCount === totalChunks;
 }
 
-function mergeChunks(chunksArray) {
-  const mergedArrayBuffer = new Uint8Array(
-    chunksArray.reduce((acc, chunk) => acc + chunk.byteLength, 0)
-  );
-
+function mergeArrayBuffers(arrayBuffers) {
+  const totalLength = arrayBuffers.reduce((acc, curr) => acc + curr.byteLength, 0);
+  const mergedArrayBuffer = new Uint8Array(totalLength);
   let offset = 0;
-  chunksArray.forEach((chunk) => {
-    mergedArrayBuffer.set(new Uint8Array(chunk), offset);
-    offset += chunk.byteLength;
-  });
-  const mergedBlob = new Blob([mergedArrayBuffer], { type: 'application/octet-stream' });
 
-  return mergedBlob;
+  arrayBuffers.forEach((buffer) => {
+    mergedArrayBuffer.set(new Uint8Array(buffer), offset);
+    offset += buffer.byteLength;
+  });
+
+  return mergedArrayBuffer;
 }
 
 socket.on('receivedFile', (data) => {

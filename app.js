@@ -97,11 +97,10 @@ io.on('connection', (socket) => {
     const {groupId, fileName, fileArrayBuffer} = data
     socket.to(groupId).emit('receivedFile', {fileName, fileArrayBuffer})
   });
-
+  const chunks = {};
   socket.on('sendChunk', (data) => {
-    const { groupId, fileName, chunk, chunkArraybuffer } = data;
-  
-    socket.to(groupId).emit('receivedChunk', { fileName, chunk, chunkArraybuffer });
+    const { groupId, fileName, fileArrayBuffer, offset, totalChunks } = data;
+    socket.to(groupId).emit('resendChunk', {fileName, fileArrayBuffer, offset, totalChunks})
   });
 
 
