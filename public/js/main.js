@@ -18,7 +18,7 @@ function chatOnLoad() {
   const groupID = document.getElementById('groupID')
   nameInput.textContent = username;
   groupID.textContent = groupId;
-  
+
   socket.emit('joinRoom', ({ username, groupId, password }))
   socket.on('passDoesNotCorrect', (message) => {
     console.log('Lỗi: ' + message);
@@ -42,21 +42,29 @@ function chatOnLoad() {
     }, 1500);
   });
 }
-
-socket.on('joinedRoom', (participants) => {
-  const notifi = `${username} joined Room`;
-  socket.emit('newJoin', ({ groupId, notifi }));
-});
+socket.on('joinedRoom', function () {
+  const notifi = `${username} joined Room`
+  socket.emit('newJoin', ({ groupId, notifi }))
+})
 
 socket.on('newJoin', (notifi) => {
   const element = `
-        <li class="notifi-newJoin">
-          <p class="notifi-newJoin" id="notifi-newJoin">${notifi}</p>
-        </li>
-        `
+      <li class="message-feedback">
+        <p class="feedback" id="feedback">${notifi}</p>
+      </li>
+      `
   messageContainer.innerHTML += element
-
 })
+socket.on('joinedParticipantsList', function (participants) {
+  usersInGroup.splice(0, usersInGroup.length);
+  console.log('Received joinedRoom event:', participants);
+  participants.forEach(user => {
+    if (user.groupId === groupId) {
+      usersInGroup.push(user);
+    }
+  });
+  updateParticipantsList(usersInGroup);
+});
 
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -179,8 +187,8 @@ $('.input-image').change(function () {
   }
 });
 
-$('.input-file').change(function(){
-  if(this.files?.[0]) {
+$('.input-file').change(function () {
+  if (this.files?.[0]) {
     const file = this.files[0];
     const downloadLink = URL.createObjectURL(file);
     const fileName = file.name;
@@ -224,18 +232,18 @@ $('.input-file').change(function(){
 let receivedChunks = {};
 
 socket.on('resendChunk', (data) => {
-  const {fileName, fileArrayBuffer, offset, totalChunks} = data;
+  const { fileName, fileArrayBuffer, offset, totalChunks } = data;
 
   if (!receivedChunks[fileName]) {
     receivedChunks[fileName] = [];
   }
-  
+
   receivedChunks[fileName][offset] = fileArrayBuffer;
 
   if (checkReceivedChunks(fileName, totalChunks)) {
     const mergedArrayBuffer = mergeArrayBuffers(receivedChunks[fileName]);
     const file = new Blob([mergedArrayBuffer], { type: 'application/octet-stream' });
-    
+
     const downloadLink = URL.createObjectURL(file);
     addFileToUI(false, fileName, downloadLink);
   }
@@ -260,7 +268,7 @@ function mergeArrayBuffers(arrayBuffers) {
 }
 
 socket.on('receivedFile', (data) => {
-  const {fileName, fileArrayBuffer} = data
+  const { fileName, fileArrayBuffer } = data
   const blob = new Blob([fileArrayBuffer], { type: 'application/octet-stream' });
   const blobURL = URL.createObjectURL(blob);
   messageTone.play()
@@ -268,7 +276,7 @@ socket.on('receivedFile', (data) => {
 })
 
 function addFileToUI(isOwnMessage, fileName, downloadLink) {
-  
+
   const element = `
     <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
       <p class="message">
@@ -350,5 +358,24 @@ function copyID() {
     closeCorrectContainer();
   }, 1500);
 }
-
+function updateParticipantsList(participants) {
+  const participantsList = document.getElementById('participants-list');
+  participantsList.innerHTML = '';
+  participants.forEach(user => {
+    const participantElement = document.createElement('div');
+    participantElement.classList.add('participant');
+    const userIcon = document.createElement('span');
+    userIcon.innerHTML = '<i class="far fa-user"></i>';
+    participantElement.appendChild(userIcon);
+    const userNameLabel = document.createElement('label');
+    userNameLabel.classList.add('name-input');
+    userNameLabel.textContent = user.username;
+    participantElement.appendChild(userNameLabel);
+    participantsList.appendChild(participantElement);
+  });
+}
+function leaveRoom() {
+  socket.emit('leaveRoom');
+  window.location.href = `../index.html`
+}
 

@@ -45,7 +45,8 @@ io.on('connection', (socket) => {
 
         rooms[groupId].connectedClients++;
         console.log('A client joined room ', groupId, ': ', socket.id);
-        socket.emit('joinedRoom', rooms[groupId].participants);
+        socket.emit('joinedRoom');
+        io.to(groupId).emit('joinedParticipantsList', rooms[groupId].participants);
       } else {
         if (rooms[groupId].password !== password) {
           socket.emit('passDoesNotCorrect', 'Incorrect password');
@@ -76,31 +77,16 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(socket.id, 'disconnected');
-
-    // socket.leave(groupId);
-    // rooms[groupId].connectedClients--;
-    //   if (rooms[groupId].connectedClients == 0) {
-    //     delete rooms[groupId];
-    //     console.log(`Room ${groupId} has been removed.`);
-    //   }
-    Object.keys(rooms).forEach((groupId) => {
-      const participants = rooms[groupId].participants;
-      const index = participants.findIndex(user => user.id === socket.id);
-      if (index !== -1) {
-        participants.splice(index, 1);
-        rooms[groupId].connectedClients--;
-        io.to(groupId).emit('leftRoom', rooms[groupId].participants);
-      }
-    });
+    leaveRoomHandler(socket.id);
   });
   socket.on('sendFile', (data) => {
-    const {groupId, fileName, fileArrayBuffer} = data
-    socket.to(groupId).emit('receivedFile', {fileName, fileArrayBuffer})
+    const { groupId, fileName, fileArrayBuffer } = data
+    socket.to(groupId).emit('receivedFile', { fileName, fileArrayBuffer })
   });
   const chunks = {};
   socket.on('sendChunk', (data) => {
     const { groupId, fileName, fileArrayBuffer, offset, totalChunks } = data;
-    socket.to(groupId).emit('resendChunk', {fileName, fileArrayBuffer, offset, totalChunks})
+    socket.to(groupId).emit('resendChunk', { fileName, fileArrayBuffer, offset, totalChunks })
   });
 
 
@@ -108,7 +94,17 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('feedback', data)
   })
 });
-
+function leaveRoomHandler(socketId) {
+  Object.keys(rooms).forEach((groupId) => {
+    const participants = rooms[groupId].participants;
+    const index = participants.findIndex(user => user.id === socketId);
+    if (index !== -1) {
+      participants.splice(index, 1);
+      rooms[groupId].connectedClients--;
+      io.to(groupId).emit('leftRoom', rooms[groupId].participants);
+    }
+  });
+}
 function checkAndRemoveEmptyRooms() {
   setInterval(() => {
     const roomKeys = Object.keys(rooms);
