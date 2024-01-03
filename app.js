@@ -63,7 +63,6 @@ io.on('connection', (socket) => {
     const { groupId, notifi } = data
     socket.to(groupId).emit('newJoin', notifi);
   })
-
   socket.on('message', (data) => {
     const { groupId, name, message, dateTime } = data;
 

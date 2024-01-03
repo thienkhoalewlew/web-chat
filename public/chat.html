@@ -20,12 +20,12 @@
       <span><i class="fas fa-user"></i></span>
       <label id="name-input" class="name-input" maxlength="20">anonymous</label>
       <p>> Participants:</p>
-      <div class="participants-list" id="participants-list" ></div>
-      <button class="btnLeaveRoom" id="btnLeaveRoom" onclick="leaveRoom()">Leave Room</button>
+      <div class="participants-list" id="participants-list"></div>
+      <button class="btnLeaveRoom" id="btnLeaveRoom" onclick="confirmLeave()">Leave Room</button>
     </div>
-    
+
     <div class="main">
-      
+
       <ul class="message-container" id="message-container">
         <!-- These li elements are only for reference, and therefore, they are commented out... -->
         <!-- <li class="message-left">
@@ -50,7 +50,7 @@
         <div id="image-list-container" class="image-list-container"></div>
       </label>
       <!--Hiển thị ảnh toàn màn hình-->
-      
+
       <!---->
 
       <form class="message-form" id="message-form">
@@ -64,7 +64,7 @@
         <input type="text" name="message" id="message-input" class="message-input" />
         <div class="v-divider"></div>
         <button type="submit" class="send-button">
-           <span><i class="fas fa-paper-plane"></i></span>
+          <span><i class="fas fa-paper-plane"></i></span>
         </button>
       </form>
     </div>
@@ -86,6 +86,17 @@
   <div id="fullscreen-container" class="fullscreen-container">
     <img id="fullscreen-image" class="fullscreen-image" src="#" alt="Fullscreen Image">
     <span id="close-fullscreen" class="close-fullscreen">&times;</span>
+  </div>
+  <div class="fullscreen-container" id="confirmLeave">
+    <div class="confirm">
+      <button class="close-button" onclick="closeCofirmContainer()"><i class="fa-solid fa-x"></i></button>
+      <div class="error-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+      <p>Are you sure to leave the room?</p>
+      <div class="btn-cofirm">
+        <button class="btn-no" onclick="closeCofirmContainer()">No <i class="fa-solid fa-xmark"></i></button>
+        <button class="btn-yes" onclick="leaveRoom()">Yes <i class="fa-solid fa-check"></i> </button>
+      </div>
+    </div>
   </div>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"

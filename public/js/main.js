@@ -46,7 +46,6 @@ socket.on('joinedRoom', function () {
   const notifi = `${username} joined Room`
   socket.emit('newJoin', ({ groupId, notifi }))
 })
-
 socket.on('newJoin', (notifi) => {
   const element = `
       <li class="message-feedback">
@@ -54,6 +53,7 @@ socket.on('newJoin', (notifi) => {
       </li>
       `
   messageContainer.innerHTML += element
+  scrollToBottom()
 })
 socket.on('joinedParticipantsList', function (participants) {
   usersInGroup.splice(0, usersInGroup.length);
@@ -341,6 +341,13 @@ function closeErrorContainer() {
 function closeCorrectContainer() {
   const correctContainer = document.getElementById('correctContainer');
   correctContainer.style.display = 'none';
+} function closeCorrectContainer() {
+  const correctContainer = document.getElementById('correctContainer');
+  correctContainer.style.display = 'none';
+}
+function closeCofirmContainer() {
+  const confirmLeave = document.getElementById('confirmLeave');
+  confirmLeave.style.display = 'none';
 }
 function copyID() {
   var groupIDValue = document.getElementById("groupID").innerText;
@@ -374,8 +381,13 @@ function updateParticipantsList(participants) {
     participantsList.appendChild(participantElement);
   });
 }
+function confirmLeave() {
+  const confirmLeave = document.getElementById('confirmLeave');
+  confirmLeave.style.display = 'flex';
+}
 function leaveRoom() {
-  socket.emit('leaveRoom');
-  window.location.href = `../index.html`
+  const notifi = `${username} left the Room`
+  socket.emit('newJoin', ({ groupId, notifi }))
+  window.history.back();
 }
 
