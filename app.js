@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => console.log(`💬 server on port ${PORT}`));
 const io = socketIo(server);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "docs")));
 
 const rooms = {};
 checkAndRemoveEmptyRooms();
